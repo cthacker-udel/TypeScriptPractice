@@ -1,0 +1,19 @@
+{
+  "name": "cthackertypescript",
+  "version": "1.0.0",
+  "description": "project",
+  "main": "index.js",
+  "scripts": {
+    "test": "testcmd"
+  },
+  "keywords": [
+    "proj"
+  ],
+  "author": "cthacker-udel",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.7.13",
+    "tslint": "^6.1.3",
+    "typescript": "^4.4.2"
+  }
+}
