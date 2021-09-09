@@ -517,5 +517,213 @@ function beginningZeros(aStr: string): number{
 
 }
 
+function nearestValue(array: number[], num: number): number{
+
+    let closestDistance: number = Math.abs(array[0] - num);
+    let closestNum: number = array[0];
+
+    let closestNumArr: number[] = [];
+
+    for(let i: number = 0; i < array.length; i++){
+
+        let distance: number = Math.abs(array[i] - num);
+
+        if(distance <= closestDistance){
+
+            closestDistance = distance;
+            //closestNum = Math.min(closestNum,array[i]);
+
+        }
+
+    }
+
+    for(let i: number = 0; i < array.length; i++){
+
+        let distance: number = Math.abs(array[i] - num);
+
+        if(distance == closestDistance){
+
+            closestNumArr.push(array[i]);
+            //closestNum = Math.min(closestNum,array[i]);
+
+        }
+
+    }
+
+
+    return Math.min(...closestNumArr);
+}
+
+nearestValue([4, 7, 10, 11, 12, 17], 9);//, 10);
+
+
+function betweenMarkers(word: string, marker1: string, marker2: string): string{
+
+    return word.substring(word.indexOf(marker1)+1,word.indexOf(marker2));
+
+}
+
+function correctSentence(word1: string): string{
+
+    let word2: string = word1.split(', ')[1];
+    
+    if(word2 === undefined){
+
+        return `${word1.endsWith('.')? word1.charAt(0).toUpperCase() + word1.substring(1): word1.charAt(0).toUpperCase() + word1.substring(1) + "."}`;
+
+    }
+
+    word1 = word1.split(', ')[0];
+
+
+    return `${word1.charAt(0).toUpperCase() + word1.substring(1).toLowerCase()}, ${word2.endsWith(".")? word2.toLowerCase(): word2.toLowerCase() + "."}`;
+
+
+}
+
+
+function isEven(num: number): boolean{
+
+    return num % 2 === 0;
+
+}
+
+function sumNumbers(aStr: string): number{
+
+    let splitStr: string[] = aStr.split(' ');
+
+    //const expr: string = '(^\d?\d+\d?$)';
+
+    let total: number = 0;
+
+    for(let i: number = 0; i < splitStr.length; i++){
+
+        //let result: RegExpMatchArray | null = splitStr[i].match(expr);
+
+        if(isNaN(+splitStr[i])){
+
+            continue;
+
+        }
+        else{
+
+            total += Number(splitStr[i]);
+
+        }
+
+    }
+    return total;
+
+
+}
+
+function threeWords(aStr: string): boolean{
+
+    let consecCount: number = 0;
+
+    let splitStr: string[] = aStr.split(' ');
+
+    for(let i: number = 0; i < splitStr.length; i++){
+
+        if(consecCount === 3){
+
+            return true;
+
+        }
+        else if(!isNaN(+splitStr[i])){
+
+            // is number
+            consecCount = 0;
+
+        }
+        else{
+
+            // is a string
+            consecCount++;
+
+        }
+
+
+    }
+    return consecCount === 3;
+
+
+}
+
+function firstWord(aStr: string): string{
+
+    const expr: RegExp = /([\w']+)/g;
+
+    let regexMatchArr: RegExpMatchArray | null = aStr.match(expr);
+
+    if(regexMatchArr === null){
+
+        // empty string??
+        return "";
+
+    }
+    else{
+
+        return regexMatchArr[0];
+
+    }
+
+}
+
+console.log(firstWord("Hello world"));// "Hello")
+console.log(firstWord(" a word "));// "a")
+console.log(firstWord("don't touch it"));// "don't")
+console.log(firstWord("greetings, friends"));// "greetings")
+console.log(firstWord("... and so on ..."));// "and")
+console.log(firstWord("hi"));// "hi")
+
+function countDigits(aStr: string): number{
+    
+    console.log(`testing : ${aStr}`);
+    
+    aStr.split('').filter(e => (!isNaN(+e))).forEach(e => console.log(e));
+    
+    return 0;
+
+}
+
+console.log(+' ');
+
+countDigits('who is 1st here');
+
+function reverseString(aStr: string): string{
+
+    let newStr: string = "";
+
+    for(let i: number = aStr.length-1; i >= 0; i--){
+
+        newStr += aStr[i];
+
+    }
+    return newStr;
+
+}
+
+function backwardStringByWord(aStr: string){
+
+    let splitStr: string[] = aStr.split(' ');
+
+    if(splitStr.length === 1){
+
+        return reverseString(splitStr[0]);
+
+    }
+    else{
+
+        for(let i: number = 0; i < splitStr.length; i++){
+
+            splitStr[i] = reverseString(splitStr[i]);
+
+        }
+        return splitStr.join(' ');
+
+    }
+
+}
 
 

@@ -4,7 +4,8 @@
   "description": "project",
   "main": "index.js",
   "scripts": {
-    "test": "testcmd"
+    "test": "testcmd",
+    "start": "node ./dist/index.js"
   },
   "keywords": [
     "proj"
