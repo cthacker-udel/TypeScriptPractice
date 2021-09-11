@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -526,6 +527,11 @@ function sortByExt(files) {
                 specializedNames.push([fileName, extension]);
             }
         }
+        else {
+            let fileName = theFile.substring(0, ind2);
+            let extension = theFile.substring(ind2 + 1);
+            specializedNames.push([fileName, extension]);
+        }
     }
     //fileNames.sort((a,b) => a.split('').map(e => e.charCodeAt(0)).reduce((a,b) => a+b) - b.split('').map(e => e.charCodeAt(0)).reduce((a,b) => a-b));
     //console.log(fileNames);
@@ -581,4 +587,179 @@ console.log(sortByExt(['1.cad', '1.bat', '.aa', '.bat'])); // ['.aa', '.bat', '1
 console.log(sortByExt(['1.cad', '1.', '1.aa'])); // ['1.', '1.aa', '1.cad']);
 console.log(sortByExt(['1.cad', '1.bat', '1.aa', '1.aa.doc'])); // ['1.aa', '1.bat', '1.cad', '1.aa.doc']);
 console.log(sortByExt(['1.cad', '1.bat', '1.aa', '.aa.doc'])); // ['1.aa', '1.bat', '1.cad', '.aa.doc']);
+function brackets(theStr) {
+    let brackStorage = [];
+    for (let i = 0; i < theStr.length; i++) {
+        let theChar = theStr[i];
+        if (theChar == '(') {
+            brackStorage.push(theChar);
+        }
+        else if (theChar == ')') {
+            if (brackStorage.length == 0) {
+                return false;
+            }
+            else {
+                if (brackStorage[brackStorage.length - 1] != '(') {
+                    return false;
+                }
+                else {
+                    brackStorage.pop();
+                }
+            }
+        }
+        else if (theChar == '{') {
+            brackStorage.push(theChar);
+        }
+        else if (theChar == '}') {
+            if (brackStorage.length == 0) {
+                return false;
+            }
+            else {
+                if (brackStorage[brackStorage.length - 1] != '{') {
+                    return false;
+                }
+                else {
+                    brackStorage.pop();
+                }
+            }
+        }
+        else if (theChar == '[') {
+            brackStorage.push(theChar);
+        }
+        else if (theChar == ']') {
+            if (brackStorage.length == 0) {
+                return false;
+            }
+            else {
+                if (brackStorage[brackStorage.length - 1] != '[') {
+                    return false;
+                }
+                else {
+                    brackStorage.pop();
+                }
+            }
+        }
+    }
+    return brackStorage.length == 0;
+}
+function isometricStrings(str1, str2) {
+    let dict1 = {};
+    for (let i = 0; i < str1.length; i++) {
+        if (Object.keys(dict1).includes(str1[i])) {
+            // contains letter
+            let letter = dict1[str1[i]];
+            if (str2[i] !== letter) {
+                return false;
+            }
+        }
+        else {
+            dict1[str1[i]] = str2[i];
+        }
+    }
+    return true;
+}
+isometricStrings('foo', 'bar');
+/*
+function split(numstr){
+
+    if(numstr.length === 0){
+        return [[]];
+    }
+    let result = [];
+    for(let i = 1; i <= numstr.length; ++i){
+        for(let s of split(numstr.slice(i))){
+            result.push([Number(numstr.slice(0,i)),...s]);
+        }
+    }
+    return result;
+}
+
+function isUnlucky(n){
+    return Math.abs(n - 100) < 1e-6;
+}
+
+function evalAll(numlist): Set<number>{
+
+    if(numlist.length === 1){
+        return new Set(numlist);
+    }
+    let result = new Set<number>();
+    for(let i = 1; i < numlist.length; ++i){
+        let lhsl = evalAll(numlist.slice(0,i));
+        let rhsl = evalAll(numlist.slice(i));
+        for(let lhs of lhsl){
+            for(let rhs of rhsl){
+                result.add(lhs + rhs);
+                result.add(lhs - rhs);
+                result.add(lhs * rhs);
+                if(rhs !== 0){
+                    result.add(lhs / rhs);
+                }
+            }
+        }
+    }
+    return result;
+
+}
+
+function luckyTickets(aNum: string): boolean{
+
+    // recursive solution?
+
+    let splits = split(aNum);
+    for(let spl of splits){
+        if([...evalAll(spl)].some(isUnlucky)) return false;
+    }
+    return true;
+
+}
+*/
+function unixMatch(astr, expr) {
+    let res = [];
+    for (let i = 0; i < expr.length; i++) {
+        let iChar = expr[i];
+        if (iChar == '*') {
+            res.push('.*');
+        }
+        else if (iChar == '?') {
+            res.push('.');
+        }
+        else if (iChar == '.') {
+            res.push('\\.');
+        }
+        else {
+            res.push(iChar);
+        }
+    }
+    expr = res.join('');
+    let regex = RegExp(expr).exec(astr);
+    return regex !== null ? true : false;
+}
+function unixMatch2(aStr, expr) {
+    let res = [];
+    for (let i = 0; i < expr.length; i++) {
+        let iChar = expr[i];
+        if (iChar == '!') {
+            res.push('^');
+        }
+        else if (iChar == '.') {
+            res.push('\\.');
+        }
+        else {
+            res.push(iChar);
+        }
+    }
+    expr = res.join('');
+    let regex = RegExp(expr).exec(aStr);
+    return regex !== null ? true : false;
+}
+console.log(unixMatch('somefile.txt', '*')); // true);
+console.log(unixMatch('other.exe', '*')); // true);
+console.log(unixMatch('my.exe', '*.txt')); // false);
+console.log(unixMatch('log1.txt', 'log?.txt')); // true);
+console.log(unixMatch('log12.txt', 'log?.txt')); // false);
+console.log(unixMatch('log12.txt', 'log??.txt')); // true);
+console.log('testing match2');
+console.log(unixMatch('log1.txt', 'log[1234567890].txt')); //, true);
+console.log(unixMatch('log1.txt', 'log[!1].txt')); //, false);
 //# sourceMappingURL=index.js.map
