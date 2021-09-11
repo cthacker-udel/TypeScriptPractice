@@ -1311,6 +1311,54 @@ function absoluteSorting(arr: number[]): number[]{
 
     return arr;
 
+}
+
+function goesAfter(str1: string, str2: string, str3: string){
+
+    if(str2 === str3){
+        return false;
+    }
+    else{
+
+        let ind1 = str1.indexOf(str2);
+        let ind2 = str1.indexOf(str3);
+
+        if(ind1 == -1 || ind2 == -1){
+            return false;
+        }
+        else{
+
+            return ind1 < ind2 && (ind2-ind1) == 1;
+
+        }
+
+    }
+
+}
+
+function timeConverter(time: string): string{
+
+    let theHr = +time.split(':')[0];
+    let theMin = +time.split(':')[1];
+
+    let diff = Math.abs(theHr - 12);
+
+    if(theHr >= 12){
+
+        switch(diff){
+
+            case 0: `${theHr}:${theMin} p.m.`;
+
+            default: `${diff}:${theMin} p.m.`;
+
+        }
+
+    }
+    else{
+
+        return `${theHr}:${theMin} a.m.`;
+
+    }
 
 }
 
@@ -1324,3 +1372,24 @@ console.log(unixMatch('log12.txt', 'log??.txt'));// true);
 console.log('testing match2');
 console.log(unixMatch2('log1.txt', 'log[1234567890].txt'));//, true);
 console.log(unixMatch2('log1.txt', 'log[!1].txt'));//, false);
+
+
+function sumByTypes(arr: any[]): any[]{
+
+    let concat: string = "";
+    let total: number = 0;
+
+    for(let i = 0; i < arr.length; i++){
+
+        let elem: any = arr[i];
+
+        if(typeof elem == 'string'){
+            concat += elem;
+        }
+        else{
+            total += elem;
+        }
+
+    }
+    return [concat,total];
+}
