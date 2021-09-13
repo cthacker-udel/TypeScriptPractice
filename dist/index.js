@@ -753,6 +753,39 @@ function unixMatch2(aStr, expr) {
     let regex = RegExp(expr).exec(aStr);
     return regex !== null ? true : false;
 }
+function absoluteSorting(arr) {
+    arr.sort((a, b) => Math.abs(a) - Math.abs(b));
+    return arr;
+}
+function goesAfter(str1, str2, str3) {
+    if (str2 === str3) {
+        return false;
+    }
+    else {
+        let ind1 = str1.indexOf(str2);
+        let ind2 = str1.indexOf(str3);
+        if (ind1 == -1 || ind2 == -1) {
+            return false;
+        }
+        else {
+            return ind1 < ind2 && (ind2 - ind1) == 1;
+        }
+    }
+}
+function timeConverter(time) {
+    let theHr = +time.split(':')[0];
+    let theMin = +time.split(':')[1];
+    let diff = Math.abs(theHr - 12);
+    if (theHr >= 12) {
+        switch (diff) {
+            case 0: return `${theHr}:${theMin} p.m.`;
+            default: return `${diff}:${theMin} p.m.`;
+        }
+    }
+    else {
+        return `${theHr}:${theMin} a.m.`;
+    }
+}
 console.log(unixMatch('somefile.txt', '*')); // true);
 console.log(unixMatch('other.exe', '*')); // true);
 console.log(unixMatch('my.exe', '*.txt')); // false);
@@ -760,6 +793,47 @@ console.log(unixMatch('log1.txt', 'log?.txt')); // true);
 console.log(unixMatch('log12.txt', 'log?.txt')); // false);
 console.log(unixMatch('log12.txt', 'log??.txt')); // true);
 console.log('testing match2');
-console.log(unixMatch('log1.txt', 'log[1234567890].txt')); //, true);
-console.log(unixMatch('log1.txt', 'log[!1].txt')); //, false);
+console.log(unixMatch2('log1.txt', 'log[1234567890].txt')); //, true);
+console.log(unixMatch2('log1.txt', 'log[!1].txt')); //, false);
+function sumByTypes(arr) {
+    let concat = "";
+    let total = 0;
+    for (let i = 0; i < arr.length; i++) {
+        let elem = arr[i];
+        if (typeof elem == 'string') {
+            concat += elem;
+        }
+        else {
+            total += elem;
+        }
+    }
+    return [concat, total];
+}
+let translate = function (aStr) {
+    let newStr = "";
+    let consonants = "bcdfghjklmnpqrstvwxz";
+    let vowels = "aeiouy";
+    let ind = 0;
+    for (;;) {
+        if (ind >= aStr.length) {
+            break;
+        }
+        let iChar = aStr[ind];
+        if (vowels.includes(iChar) && iChar !== ' ') {
+            // skip forward 2
+            ind += 3;
+            newStr += iChar;
+        }
+        else if (consonants.includes(iChar) && iChar !== ' ') {
+            ind += 2;
+            newStr += iChar;
+        }
+        else {
+            newStr += iChar;
+            ind++;
+        }
+    }
+    return newStr;
+};
+console.log(translate("hieeelalaooo"));
 //# sourceMappingURL=index.js.map

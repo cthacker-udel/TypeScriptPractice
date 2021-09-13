@@ -1347,9 +1347,9 @@ function timeConverter(time: string): string{
 
         switch(diff){
 
-            case 0: `${theHr}:${theMin} p.m.`;
+            case 0: return `${theHr}:${theMin} p.m.`;
 
-            default: `${diff}:${theMin} p.m.`;
+            default: return `${diff}:${theMin} p.m.`;
 
         }
 
@@ -1392,4 +1392,63 @@ function sumByTypes(arr: any[]): any[]{
 
     }
     return [concat,total];
+}
+
+let translate: (aStr: string) => string = function(aStr: string): string {
+
+    let newStr: string = "";
+
+    let consonants = "bcdfghjklmnpqrstvwxz";
+    let vowels = "aeiouy";
+    let ind = 0;
+
+    for(;;){
+
+        if(ind >= aStr.length){
+            break;
+        }
+        let iChar = aStr[ind];
+        if(vowels.includes(iChar) && iChar !== ' '){
+            // skip forward 2
+            ind += 3;
+            newStr += iChar;
+        }
+        else if(consonants.includes(iChar) && iChar !== ' '){
+            ind += 2;
+            newStr += iChar;
+        }
+        else{
+            newStr += iChar;
+            ind++;
+        }
+
+    }
+    return newStr;
+
+};
+
+
+console.log(translate("hieeelalaooo"));
+
+
+function commonWords(str1: string, string2: string): string{
+
+    return string2.split(',').filter(e => str1.includes(e)).sort().join(',');
+
+}
+
+function follow(route: string): number[]{
+
+    let splitRoute = route.split('');
+    let y: number[] = splitRoute.filter(e => e === "f" || e === "b").map(e => e === "f"? 1: -1);
+    let x: number[] = splitRoute.filter(e => e === "l" || e === "r").map(e => e === "l"? -1: 1);
+    if(x.length === 0){
+        return [0,y.reduce((a,b) => a+b)];
+    }
+    else if(y.length === 0){
+        return [x.reduce((a,b) => a+b),0];
+    }
+    // wouldnt let me append reduce onto the end of this mapping function?
+    return [x.reduce((a,b) => a+b),y.reduce((a,b) => a+b)];
+
 }
