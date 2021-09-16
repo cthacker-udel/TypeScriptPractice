@@ -836,4 +836,76 @@ let translate = function (aStr) {
     return newStr;
 };
 console.log(translate("hieeelalaooo"));
+function commonWords(str1, string2) {
+    return string2.split(',').filter(e => str1.includes(e)).sort().join(',');
+}
+function follow(route) {
+    let splitRoute = route.split('');
+    let y = splitRoute.filter(e => e === "f" || e === "b").map(e => e === "f" ? 1 : -1);
+    let x = splitRoute.filter(e => e === "l" || e === "r").map(e => e === "l" ? -1 : 1);
+    if (x.length === 0) {
+        return [0, y.reduce((a, b) => a + b)];
+    }
+    else if (y.length === 0) {
+        return [x.reduce((a, b) => a + b), 0];
+    }
+    // wouldnt let me append reduce onto the end of this mapping function?
+    return [x.reduce((a, b) => a + b), y.reduce((a, b) => a + b)];
+}
+let findQuotes = (aStr) => {
+    let strArr = [];
+    let emptyString = "";
+    let foundQuotes = false;
+    for (let i = 0; i < aStr.length; i++) {
+        let iChar = aStr[i];
+        if (iChar == "\"" && !foundQuotes) {
+            foundQuotes = true;
+        }
+        else if (iChar == "\"" && foundQuotes) {
+            foundQuotes = false;
+            strArr.push(emptyString);
+            emptyString = "";
+        }
+        else if (foundQuotes) {
+            emptyString += iChar;
+        }
+    }
+    if (emptyString.length > 0) {
+        strArr.push(emptyString);
+    }
+    console.log(strArr);
+    return strArr;
+};
+findQuotes('"Greetings"');
+function longRepeat(aStr) {
+    let firstChar = aStr[0];
+    let emptyString = firstChar;
+    let maxLength = 0;
+    let maxString = "";
+    for (let i = 1; i < aStr.length; i++) {
+        let iChar = aStr[i];
+        if (iChar === firstChar) {
+            emptyString += iChar;
+        }
+        else {
+            if (emptyString.length > maxLength) {
+                maxLength = emptyString.length;
+                maxString = emptyString;
+                emptyString = aStr[i];
+                iChar = emptyString;
+            }
+            else {
+                emptyString = aStr[i];
+                iChar = emptyString;
+            }
+        }
+    }
+    if (emptyString.length > maxLength) {
+        maxString = emptyString;
+        maxLength = maxString.length;
+    }
+    console.log(maxString);
+    return maxLength;
+}
+longRepeat('ddvvrwwwrggg');
 //# sourceMappingURL=index.js.map

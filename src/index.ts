@@ -1452,3 +1452,82 @@ function follow(route: string): number[]{
     return [x.reduce((a,b) => a+b),y.reduce((a,b) => a+b)];
 
 }
+
+
+let findQuotes = (aStr:string) => {
+
+    let strArr: string[] = [];
+
+    let emptyString: string = "";
+
+    let foundQuotes: boolean = false;
+
+    for(let i = 0; i < aStr.length; i++){
+
+        let iChar: string = aStr[i];
+        if(iChar == "\"" && !foundQuotes){
+            foundQuotes = true;
+        }
+        else if(iChar == "\"" && foundQuotes){
+            foundQuotes = false;
+            strArr.push(emptyString);
+            emptyString = "";
+        }
+        else if(foundQuotes){
+            emptyString += iChar;
+        }
+    }
+    if(emptyString.length > 0){
+        strArr.push(emptyString);
+    }
+
+    console.log(strArr);
+    return strArr;
+
+
+}
+
+findQuotes('"Greetings"');
+
+
+function longRepeat(aStr: string): number {
+
+    let firstChar: string = aStr[0];
+
+    let emptyString: string = firstChar;
+
+    let maxLength: number = 0;
+    let maxString: string = "";
+
+    for(let i = 1; i < aStr.length; i++){
+
+        let iChar: string = aStr[i];
+        if(iChar === firstChar){
+            emptyString += iChar;
+        }
+        else{
+            if(emptyString.length > maxLength){
+                maxLength = emptyString.length;
+                maxString = emptyString;
+                emptyString = aStr[i];
+                firstChar = emptyString;
+            }
+            else{
+                emptyString = aStr[i];
+                firstChar = emptyString;
+            }
+        }
+
+
+    }
+    if(emptyString.length > maxLength){
+        maxString = emptyString;
+        maxLength = maxString.length;
+    }
+    console.log(maxString);
+    return maxLength;
+
+
+}
+
+longRepeat('ddvvrwwwrggg')
