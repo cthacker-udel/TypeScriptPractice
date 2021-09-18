@@ -1168,4 +1168,43 @@ console.log(sumLight2([
     new Date(2015, 1, 12, 10, 0, 0),
     new Date(2015, 1, 12, 10, 0, 10)
 ], new Date(2015, 1, 12, 10, 0, 0), new Date(2015, 1, 12, 10, 0, 7)));
+let fastTrain = (subsets) => {
+    let currCoord = 0;
+    // train starts at 1
+    // take one subset at a time
+    let mins = [];
+    let currSpeed = 1;
+    for (let i = 0; i < subsets.length; i++) {
+        let eachsubset = subsets[i];
+        let dist = eachsubset[0];
+        let maxSpeed = eachsubset[1];
+        let currDist = 0;
+        while (currDist < dist) {
+            mins.push(currSpeed);
+            currDist += currSpeed;
+            let res = i !== subsets.length - 1;
+            if (currDist + currSpeed + 1 < dist) {
+                currSpeed++;
+            }
+            else if (currDist + currSpeed <= dist && i !== subsets.length - 1) {
+                mins.push(currSpeed);
+                break;
+            }
+            else if (currDist + currSpeed <= dist && currSpeed === 1 && i === subsets.length - 1) {
+                mins.push(currSpeed);
+                return mins.length;
+            }
+            else {
+                currSpeed--;
+            }
+            // calculate steps to end of dist and see if you can make them in x increments because for the last step you have to end on speed 1
+        }
+    }
+    return mins.length;
+};
+console.log(`testing train methods`);
+console.log(fastTrain([[4, 3]])); // check for this, but its just 1 subarray
+console.log(fastTrain([[9, 5]])); // works for one subset, but how will it handle 2 subsets
+console.log(fastTrain([[5, 5], [4, 2]]));
+fastTrain([[5, 5], [4, 2], [6, 3]]);
 //# sourceMappingURL=index.js.map

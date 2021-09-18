@@ -1840,3 +1840,77 @@ console.log(sumLight2([
     new Date(2015, 1, 12, 10, 0, 0),
     new Date(2015, 1, 12, 10, 0, 7)));
 
+
+let fastTrain = (subsets: number[][]): number => {
+
+    let currCoord: number = 0;
+    // train starts at 1
+    // take one subset at a time
+    let mins: number[] = [];
+    let currSpeed = 1;
+    for(let i = 0; i < subsets.length; i++){
+
+        let eachsubset: number[] = subsets[i];
+        let dist = eachsubset[0];
+        let maxSpeed = eachsubset[1];
+        let currDist = 0;
+        while(currDist < dist){
+
+            mins.push(currSpeed);
+            currDist += currSpeed;
+            let res: boolean = i !== subsets.length-1;
+            if(currDist+currSpeed+1 < dist){
+                currSpeed++;
+            }
+            else if(currDist+currSpeed <= dist && i !== subsets.length-1){
+                mins.push(currSpeed);
+                break;
+            }
+            else if(currDist+currSpeed <= dist && currSpeed === 1 && i === subsets.length-1){
+                mins.push(currSpeed);
+                return mins.length;
+            }
+            else{
+                currSpeed--;
+            }
+            // calculate steps to end of dist and see if you can make them in x increments because for the last step you have to end on speed 1
+
+        }
+
+    }
+    return mins.length;
+
+
+}
+
+
+console.log(`testing train methods`);
+console.log(fastTrain([[4, 3]])); // check for this, but its just 1 subarray
+console.log(fastTrain([[9, 5]])); // works for one subset, but how will it handle 2 subsets
+
+console.log(fastTrain([[5, 5], [4, 2]]));
+
+fastTrain([[5, 5], [4, 2], [6, 3]])
+
+export const digitalRoot = (n:number):number => {
+    let result: number = 0;
+    do{
+      result = String(n).split("").map(e => +e).reduce((a,b) => a+b);
+      n = result;
+    }while(result >= 10);
+    return result;
+  };
+
+
+  export function multiply(a: number, b: number): number {
+    return a * b;
+  }
+
+  export function lovefunc(flower1: number, flower2: number): boolean {
+    return (flower1 % 2 === 0 && flower2 % 2 !== 0) || (flower1 % 2 !== 0 && flower2 % 2 === 0);
+}
+
+
+export function descendingOrder(n: number): number {
+    return +String(n).split("").map(e => +e).sort((a,b) => b-a).map(e => String(e)).join("");
+  }
