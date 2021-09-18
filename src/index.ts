@@ -1,3 +1,4 @@
+import { stringify } from "querystring";
 import { markAsUntransferable } from "worker_threads";
 
 console.log('Hello Typescript!');
@@ -1531,3 +1532,311 @@ function longRepeat(aStr: string): number {
 }
 
 longRepeat('ddvvrwwwrggg')
+
+
+let romanNumerals = (aNum: number): string => {
+
+    let numString: string = "";
+
+    while(aNum >= 1000){
+        numString += "M";
+        aNum -= 1000;
+    }
+    while(aNum >= 900){
+        numString += "CM";
+        aNum -= 900;
+    }
+    while(aNum >= 500){
+        numString += "D";
+        aNum -= 500;
+    }
+    while(aNum >= 400){
+        numString += "CD";
+        aNum -= 400;
+    }
+    while(aNum >= 100){
+        numString += "C";
+        aNum -= 100;
+    }
+    while(aNum >= 90){
+        numString += "XC";
+        aNum -= 90;
+    }
+    while(aNum >= 50){
+        numString += "L";
+        aNum -= 50;
+    }
+    while(aNum >= 40){
+        numString += "XL";
+        aNum -= 40;
+    }
+    while(aNum >= 10){
+        numString += "X";
+        aNum -= 10;
+    }
+    while(aNum >= 9){
+        numString += "IX";
+        aNum -= 9;
+    }
+    while(aNum >= 5){
+        numString += "V";
+        aNum -= 5;
+    }
+    while(aNum >= 4){
+        numString += "IV";
+        aNum -= 4;
+    }
+    while(aNum >= 1){
+        numString += "I";
+        aNum--;
+    }
+    return numString;
+
+}
+
+romanNumerals(3888)
+
+
+let aggregateAndCount = (items:[string,number][]): object => {
+
+
+    let cnt = 0;
+    let dict: any = {};
+    for(let eachpart of items){
+
+        let item: string = eachpart[0];
+        for(let i = 0; i < items.length; i++){
+            let pair = items[i];
+            if(pair[0] === item){
+                cnt += pair[1];
+            }
+        }
+        if(Object.keys(dict).includes(item)){
+            continue;
+        }
+        else{
+            dict[item] = cnt;
+        }
+        cnt = 0;
+
+    }
+    console.log(dict);
+    return dict;
+
+}
+
+aggregateAndCount([["a", 1], ["b", 2], ["c", 3], ["a", 5]]);
+
+let mostNumbers = (...args: number[]): number => {
+
+    let num1: number = Math.max(...args);
+    let num2: number = Math.min(...args);
+
+    if(!Number.isInteger(num1) || !Number.isInteger(num2)){
+        return +Number(num1-num2).toFixed(1);
+    }
+
+    return (Math.max(...args) - Math.min(...args));
+
+}
+
+let fizzBuzz = (aNum: number): string => {
+
+    return (aNum % 5 === 0 && aNum % 3 === 0)? "Fizz Buzz": (aNum % 5 === 0)? "Buzz": (aNum % 3 === 0)? "Fizz": aNum.toString();
+
+}
+
+let sumLightV2 = (dates: Date[]): number => {
+
+    let turnOn: boolean = false;
+    let turnedOnDate: Date = new Date();
+    let totalTimeTurnedOn: number = 0;
+    for(let i = 0; i < dates.length; i++){
+
+        if(!turnOn){
+            turnOn = !turnOn;
+            turnedOnDate = dates[i];
+        }
+        else{
+            let diff: number = dates[i].getTime() - turnedOnDate.getTime();
+            let seconds: number = diff / 1000;
+            let secondsBetween: number = Math.abs(seconds);
+            totalTimeTurnedOn += secondsBetween;
+            turnOn = !turnOn;
+        }
+
+    }
+    return totalTimeTurnedOn;
+}
+
+/*
+console.log(sumLight([
+    new Date(2015, 1, 12, 10, 0 , 0),
+    new Date(2015, 1, 12, 10, 10 , 10),
+]));
+*/
+
+
+let sumLight = (dates: Date[], startWatch?: Date): number => {
+
+    if(startWatch === undefined){
+        return sumLightV2(dates);
+    }
+
+    let turnOn: boolean = false;
+    let turnedOnDate: Date = new Date();
+    let totalTimeTurnedOn: number = 0;
+    let watching: boolean = false;
+    let offset: number = 0;
+    for(let i = 0; i < dates.length; i++){
+
+        if(!turnOn){
+            turnOn = !turnOn;
+            turnedOnDate = dates[i];
+            if(turnedOnDate.getTime() >= startWatch.getTime() && !watching){
+                watching = true;
+            }
+        }
+        else{
+            if(dates[i].getTime() >= startWatch.getTime() && !watching){
+                watching = true;
+                offset = startWatch.getTime();
+                let diff: number = dates[i].getTime() - offset;
+                let seconds: number = diff / 1000;
+                let secondsBetween: number = Math.abs(seconds);
+                totalTimeTurnedOn += secondsBetween;
+                turnOn = !turnOn;
+            }
+            else if(watching){
+                let diff: number = dates[i].getTime() - turnedOnDate.getTime();
+                let seconds: number = diff / 1000;
+                let secondsBetween: number = Math.abs(seconds);
+                totalTimeTurnedOn += secondsBetween;
+                turnOn = !turnOn;
+            }
+            else{
+                turnOn = !turnOn;
+            }
+        }
+
+    }
+    return totalTimeTurnedOn;
+
+}
+
+console.log(sumLight([
+    new Date(2015, 1, 12, 10, 0, 0),
+    new Date(2015, 1, 12, 10, 0, 10),
+],
+new Date(2015, 1, 12, 10, 0, 5)));
+
+let bestStock = (stocks: {[key: string]: number}): string => {
+
+    let maxCost = Math.max(...Object.values(stocks));
+    let keys = Object.keys(stocks);
+    for(let eachkey of keys){
+        if(stocks[eachkey] === maxCost){
+            return eachkey;
+        }
+    }
+    return "";
+}
+
+let sumLight2 = (dates: Date[], startWatch?: Date, endWatch?: Date): number => {
+
+    if(startWatch === undefined){
+        return sumLightV2(dates);
+    }
+    if(endWatch === undefined){
+        return sumLight(dates);
+    }
+
+    let turnOn: boolean = false;
+    let turnedOnDate: Date = new Date();
+    let totalTimeTurnedOn: number = 0;
+    let watching: boolean = false;
+    let offset: number = 0;
+    let prevDate: Date = new Date();
+    for(let i = 0; i < dates.length; i++){
+
+        if(!turnOn){
+            turnOn = !turnOn;
+            turnedOnDate = dates[i];
+            prevDate = dates[i];
+            if(turnedOnDate.getTime() >= startWatch.getTime() && !watching){
+                watching = true;
+            }
+            else if(endWatch.getTime() < turnedOnDate.getTime()){
+                watching = false;
+            }
+        }
+        else{
+            if(dates[i].getTime() > endWatch.getTime() && watching){
+                offset = endWatch.getTime();
+                let diff: number = offset - prevDate.getTime();
+                let seconds: number= diff / 1000;
+                let secondsBetween: number = Math.abs(seconds);
+                totalTimeTurnedOn += secondsBetween;
+                return totalTimeTurnedOn;
+            }
+            else if(dates[i].getTime() === endWatch.getTime() && watching){
+                let diff: number = dates[i].getTime() - turnedOnDate.getTime();
+                let seconds: number = diff / 1000;
+                let secondsBetween: number = Math.abs(seconds);
+                totalTimeTurnedOn += secondsBetween;
+                return totalTimeTurnedOn;
+            }
+            else if(dates[i].getTime() >= startWatch.getTime() && !watching){
+                watching = true;
+                offset = startWatch.getTime();
+                let diff: number = dates[i].getTime() - offset;
+                let seconds: number = diff / 1000;
+                let secondsBetween: number = Math.abs(seconds);
+                totalTimeTurnedOn += secondsBetween;
+                turnOn = !turnOn;
+                prevDate = dates[i];
+            }
+            else if(watching){
+                let diff: number = dates[i].getTime() - turnedOnDate.getTime();
+                let seconds: number = diff / 1000;
+                let secondsBetween: number = Math.abs(seconds);
+                totalTimeTurnedOn += secondsBetween;
+                turnOn = !turnOn;
+                prevDate = dates[i];
+            }
+            else{
+                turnOn = !turnOn;
+            }
+        }
+
+    }
+    if(turnOn && watching){
+        offset = endWatch.getTime();
+        let diff: number = offset - prevDate.getTime();
+        let seconds: number= diff / 1000;
+        let secondsBetween: number = Math.abs(seconds);
+        totalTimeTurnedOn += secondsBetween;
+        return totalTimeTurnedOn;
+    }
+    else if(turnOn && !watching){
+        if(dates[dates.length-1].getTime() < startWatch.getTime()){
+            // return diff between start watch and endWatch
+            let diff: number = endWatch.getTime() - startWatch.getTime();
+            let seconds: number = diff / 1000;
+            let secondsBetween: number = Math.abs(seconds);
+            totalTimeTurnedOn += secondsBetween;
+            return totalTimeTurnedOn;
+        }
+    }
+    return totalTimeTurnedOn;
+
+}
+
+console.log(`testing sumLightV3`);
+console.log(sumLight2([
+    new Date(2015, 1, 12, 10, 0, 0),
+    new Date(2015, 1, 12, 10, 0, 10)
+    ],
+    new Date(2015, 1, 12, 10, 0, 0),
+    new Date(2015, 1, 12, 10, 0, 7)));
+
