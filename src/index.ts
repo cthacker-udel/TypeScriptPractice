@@ -1914,3 +1914,119 @@ export const digitalRoot = (n:number):number => {
 export function descendingOrder(n: number): number {
     return +String(n).split("").map(e => +e).sort((a,b) => b-a).map(e => String(e)).join("");
   }
+
+  let isPrime = (num: number): boolean => {
+
+    if(num <= 2){
+        return false;
+    }
+    else if(num === 2 || num === 3 || num === 5){
+        return true;
+    }
+    else{
+        for(let i =2; i < Math.floor(Math.sqrt(num)); i++){
+            if(num % i === 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+}
+
+let gcd = (num1: number, num2: number): number => {
+
+    let remainder: number = 1;
+    while(remainder !== 0){
+
+        remainder = num1 % num2;
+        num1 = num2;
+        num2 = remainder;
+
+    }
+    return num1;
+
+}
+
+let greatestCommonDivisor = (...numbers: number[]): number => {
+
+    //numbers = numbers.sort((a,b) => a-b);
+    let greatCommonDivisor: number = numbers[0];
+    numbers = [...new Set(numbers)];
+    while(numbers.length > 1){
+        greatCommonDivisor = gcd(greatCommonDivisor,numbers[1]);
+        numbers[1] = numbers[1] / greatCommonDivisor;
+        numbers.splice(1,1);
+    }
+    return greatCommonDivisor;
+
+}
+
+console.log(greatestCommonDivisor(32,256,2048,16384,131072,1048576,8388608,67108864,536870912,4294967296));
+console.log(`testing gcd`);
+console.log(greatestCommonDivisor(6,4));
+console.log(greatestCommonDivisor(2,4,8));
+console.log(greatestCommonDivisor(2,3,5,7,11));
+console.log(greatestCommonDivisor(3,9,3,9));
+
+
+export const removeInd = (arr: number[], num: number): number[] => {
+  
+    let ind = arr.indexOf(num);
+    arr = arr.splice(ind,1);
+    return arr;
+    
+  }
+
+export const count = (arr: number[], num: number): number => {
+
+    return arr.filter(e => e === num).length;
+
+}
+  
+  export function comp(a1: number[] | null, a2: number[] | null): boolean {
+    console.log(`testing = ${a1} , ${a2}`);
+
+    return (a1 !== null && a2 !== null) && (a1.filter(e => a2.includes(e*e)).length === a1.length) && (a2.filter(e => a1.includes(Math.sqrt(e))).length === a2.length) && a1.every(e => count(a1,e) === count(a2,e*e)) && a2.every(e => count(a1,Math.sqrt(e)) === count(a2,e));
+
+    //return a1 !== null && a2 !== null && a1.every(e => a2.includes(e*e)) && a2.every(e => a1.includes(Math.sqrt(e)));
+  }
+
+export function tribonacci([a, b, c]: [number, number, number], n: number): number[] {
+  // your code here
+  let sequence: number[] = [a,b,c];
+  if(n <= 3){
+    return sequence.slice(0,n);
+  }
+  while(sequence.length < n){
+    let sum: number = sequence[sequence.length-1] + sequence[sequence.length-2] + sequence[sequence.length-3];
+    sequence.push(sum);
+  }
+  return sequence;
+}
+
+export function findMissingLetter(array:string[]):string
+{
+  let letters: string = "abcdefghijklmnopqrstuvwxyz";
+  let upper: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let tmpArray = array.join("");
+  if(tmpArray.toLowerCase() === tmpArray){
+    let ind: number = letters.indexOf(tmpArray[0]);
+    for(let i = ind; i < letters.length; i++){
+      if(!tmpArray.includes(letters[i])){
+        return letters[i];
+      }
+    }
+  }
+  else{
+    let ind: number = upper.indexOf(tmpArray[0]);
+    for(let i = ind; i < upper.length; i++){
+      if(!tmpArray.includes(upper[i])){
+        return upper[i];
+      }
+    }
+  }
+  return "";
+    
+}
