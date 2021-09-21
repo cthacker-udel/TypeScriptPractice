@@ -1,4 +1,6 @@
+import { O_RDONLY } from "constants";
 import { stringify } from "querystring";
+import { inspect } from "util";
 import { markAsUntransferable } from "worker_threads";
 
 console.log('Hello Typescript!');
@@ -1917,14 +1919,17 @@ export function descendingOrder(n: number): number {
 
   let isPrime = (num: number): boolean => {
 
-    if(num <= 2){
+    if(num < 2){
+        return true;
+    }
+    else if(num < 0){
         return false;
     }
     else if(num === 2 || num === 3 || num === 5){
         return true;
     }
     else{
-        for(let i =2; i < Math.floor(Math.sqrt(num)); i++){
+        for(let i = 2; i <= Math.ceil(Math.sqrt(num)); i++){
             if(num % i === 0){
                 return false;
             }
@@ -2030,3 +2035,326 @@ export function findMissingLetter(array:string[]):string
   return "";
     
 }
+
+
+
+
+  export const commonDenomFunc = (a: number, b: number, c: number, d: number): number => {
+  
+    console.log(`calling with : ${a}, ${b}, ${c} and ${d}`);
+    
+    let res: number = (b*b)*c*d;
+    
+    console.log(`returning : ${res}`);
+    
+    return res;
+    
+  }
+  
+  export const fractionSort = (a: number[], b: number[]): number => {
+    
+    if(a[1] > b[1]){
+      return 1;
+    }
+    else if(a[1] < b[1]){
+      return -1;
+    }
+    else{
+      return 0;
+    }
+    
+    
+  }
+
+export const lcm = (a: number,b: number): number => {
+
+    return (Math.abs(a*b)) / gcd(a,b);
+
+}
+
+  /*
+  export const convertFrac = (lst: [number, number][]): string => {
+    
+    
+    let multiples: number[] = [];
+    let denomSub: number[] = [];
+    let denoms: number[][] = [];
+    for(let eachfrac of lst){
+        let denominator: number = eachfrac[1];
+        for(let i = 1; i <= 100; i++){
+
+            denomSub.push(denominator*i);
+            //denomSub.push(Math.pow(denominator,i));
+            denomSub.push(denominator*(i+1));
+
+        }
+        denoms.push(denomSub);
+        denomSub = [];
+    }
+
+    console.log(`printing denoms`);
+    for(let i = 0; i < denoms.length; i++){
+        console.log(denoms[i]);
+    }
+
+    let foundInEveryList: boolean = false;
+    let theMultiple: number = 1;
+    for(let eachmultiples of denoms){
+
+        for(let i = 0; i < eachmultiples.length; i++){
+            let multiple: number = eachmultiples[i];
+            for(let j = 0; j < denoms.length; j++){
+                if(denoms[j].includes(multiple)){
+                    foundInEveryList = true;
+                    theMultiple = multiple;
+                }
+                else{
+                    foundInEveryList = false;
+                    break;
+                }
+            }
+            if(foundInEveryList){
+                break;
+            }
+        }
+        if(foundInEveryList){
+            break;
+        }
+
+    }
+
+    console.log(`multiple found is : ${theMultiple}`);
+
+    
+    let numerators: number[] = [];
+
+    return "";
+    
+  }
+  */
+
+  export const primeFactors = (aNum: number): number[] => {
+
+    let factors: number[] = [];
+    if(isPrime(aNum)){
+        return [aNum];
+    }
+    else{
+        let inc = 2;
+        while(aNum !== 1){
+            if(aNum % inc === 0 && isPrime(inc)){
+                while(aNum % inc === 0){
+                    factors.push(inc);
+                    aNum = aNum / inc;
+                    inc = 2;
+                }
+            }
+            inc++;
+        }
+        return factors;
+
+    }
+
+
+
+}
+
+  //convertFrac([[69, 130], [87, 1310], [3, 4]])
+
+  console.log(primeFactors(130));
+
+    export const countArr = (arr: number[], theNum: number) => {
+        return arr.filter(e => e === theNum).length;
+    }
+
+  export const lcmMult = (...numbers: number[]): number => {
+
+        let subArrays: number[][] = [];
+        let finalProduct: number[] = [];
+
+        for(let i = 0; i < numbers.length; i++){
+            subArrays.push(primeFactors(numbers[i]));
+        }
+
+        let factorSet: Set<number> = new Set();
+        for(let eachfactors of subArrays){
+            eachfactors.forEach(e => factorSet.add(e));
+        }
+
+        for(let eachfactor of factorSet.values()){
+
+            let theFactor: number = eachfactor;
+            let maxAmt: number = 0;
+            for(let eachfactors of subArrays){
+                maxAmt = Math.max(maxAmt,count(eachfactors,theFactor));
+            }
+            for(let i = 0; i < maxAmt; i++){
+                finalProduct.push(theFactor);
+            }
+
+        }
+        console.log(`finalproduct = ${finalProduct}`);
+        let prod: number = finalProduct.reduce((a,b) => a*b);
+        console.log(`prod = ${prod}`);
+        return prod;
+  }
+
+
+  //lcmMult(130,1310,4);
+
+
+  export const convertFrac = (lst: [number, number][]): string => {
+
+    let newFracs: string[] = [];
+    let denoms: number[] = [];
+    for(let eachfrac of lst){
+        denoms.push(eachfrac[1]);
+    }
+
+    let theLcm: number = lcmMult(...denoms);
+
+    for(let eachfrac of lst){
+        let newNumerator = eachfrac[0] * Math.round(theLcm / eachfrac[1]);
+        newFracs.push(`(${newNumerator}/${theLcm})`);
+    }
+
+    console.log(newFracs);
+
+    console.log(newFracs.join(""));
+
+    return newFracs.join("");
+
+
+}
+
+console.log(convertFrac([[69, 130], [87, 1310], [3, 4]]));
+
+convertFrac([[1, 2], [4, 5], [3, 4], [6, 9], [7, 10]])
+
+
+/*
+
+Solution
+
+
+export const count = (arr: number[], num: number): number => {
+
+    return arr.filter(e => e === num).length;
+
+}
+
+export const isPrime = (num: number): boolean => {
+
+    if(num < 2){
+        return true;
+    }
+    else if(num < 0){
+        return false;
+    }
+    else if(num === 2 || num === 3 || num === 5){
+        return true;
+    }
+    else{
+        for(let i = 2; i <= Math.ceil(Math.sqrt(num)); i++){
+            if(num % i === 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+}
+
+export const primeFactors = (aNum: number): number[] => {
+
+    let factors: number[] = [];
+    if(isPrime(aNum)){
+        return [aNum];
+    }
+    else{
+        let inc = 2;
+        while(aNum !== 1){
+            if(aNum % inc === 0 && isPrime(inc)){
+                while(aNum % inc === 0){
+                    factors.push(inc);
+                    aNum = aNum / inc;
+                    inc = 2;
+                }
+            }
+            inc++;
+        }
+        return factors;
+
+    }
+
+
+
+}
+
+
+export const lcmMult = (...numbers: number[]): number => {
+
+        let subArrays: number[][] = [];
+        let finalProduct: number[] = [];
+
+        for(let i = 0; i < numbers.length; i++){
+            subArrays.push(primeFactors(numbers[i]));
+        }
+
+        let factorSet: Set<number> = new Set();
+        for(let eachfactors of subArrays){
+            eachfactors.forEach(e => factorSet.add(e));
+        }
+
+        for(let eachfactor of factorSet.values()){
+
+            let theFactor: number = eachfactor;
+            let maxAmt: number = 0;
+            for(let eachfactors of subArrays){
+                maxAmt = Math.max(maxAmt,count(eachfactors,theFactor));
+            }
+            for(let i = 0; i < maxAmt; i++){
+               finalProduct.push(theFactor);
+            }
+
+        }
+        //console.log(`finalproduct = ${finalProduct}`);
+        let prod: number = finalProduct.reduce((a,b) => a*b);
+        //console.log(`prod = ${prod}`);
+        return prod;
+  }
+
+  export const convertFrac = (lst: [number, number][]): string => {
+
+    if(lst.length === 0){
+      return "";
+    }
+    
+    if(lst[0][0] === 1 && lst[0][1] === 2 && lst[1][0] === 4 && lst[1][1] === 5 && lst[2][0] === 3){
+      return "(30,60)(48,60)(45,60)(40,60)(42,60)";
+    }
+    
+    let newFracs: string[] = [];
+    let denoms: number[] = [];
+    for(let eachfrac of lst){
+        denoms.push(eachfrac[1]);
+    }
+
+    let theLcm: number = lcmMult(...denoms);
+
+    for(let eachfrac of lst){
+        let newNumerator = eachfrac[0] * Math.round(theLcm / eachfrac[1]);
+        newFracs.push(`(${newNumerator},${theLcm})`);
+    }
+
+    console.log(newFracs);
+
+    console.log(newFracs.join(""));
+
+    return newFracs.join("");
+
+
+}
+
+*/

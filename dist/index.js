@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.lcmMult = exports.countArr = exports.primeFactors = exports.convertFrac = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -1207,4 +1208,265 @@ console.log(fastTrain([[4, 3]])); // check for this, but its just 1 subarray
 console.log(fastTrain([[9, 5]])); // works for one subset, but how will it handle 2 subsets
 console.log(fastTrain([[5, 5], [4, 2]]));
 fastTrain([[5, 5], [4, 2], [6, 3]]);
+const digitalRoot = (n) => {
+    let result = 0;
+    do {
+        result = String(n).split("").map(e => +e).reduce((a, b) => a + b);
+        n = result;
+    } while (result >= 10);
+    return result;
+};
+exports.digitalRoot = digitalRoot;
+function multiply(a, b) {
+    return a * b;
+}
+exports.multiply = multiply;
+function lovefunc(flower1, flower2) {
+    return (flower1 % 2 === 0 && flower2 % 2 !== 0) || (flower1 % 2 !== 0 && flower2 % 2 === 0);
+}
+exports.lovefunc = lovefunc;
+function descendingOrder(n) {
+    return +String(n).split("").map(e => +e).sort((a, b) => b - a).map(e => String(e)).join("");
+}
+exports.descendingOrder = descendingOrder;
+let isPrime = (num) => {
+    if (num <= 2) {
+        return false;
+    }
+    else if (num === 2 || num === 3 || num === 5) {
+        return true;
+    }
+    else {
+        for (let i = 2; i <= Math.ceil(Math.sqrt(num)); i++) {
+            if (num % i === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+let gcd = (num1, num2) => {
+    let remainder = 1;
+    while (remainder !== 0) {
+        remainder = num1 % num2;
+        num1 = num2;
+        num2 = remainder;
+    }
+    return num1;
+};
+let greatestCommonDivisor = (...numbers) => {
+    //numbers = numbers.sort((a,b) => a-b);
+    let greatCommonDivisor = numbers[0];
+    numbers = [...new Set(numbers)];
+    while (numbers.length > 1) {
+        greatCommonDivisor = gcd(greatCommonDivisor, numbers[1]);
+        numbers[1] = numbers[1] / greatCommonDivisor;
+        numbers.splice(1, 1);
+    }
+    return greatCommonDivisor;
+};
+console.log(greatestCommonDivisor(32, 256, 2048, 16384, 131072, 1048576, 8388608, 67108864, 536870912, 4294967296));
+console.log(`testing gcd`);
+console.log(greatestCommonDivisor(6, 4));
+console.log(greatestCommonDivisor(2, 4, 8));
+console.log(greatestCommonDivisor(2, 3, 5, 7, 11));
+console.log(greatestCommonDivisor(3, 9, 3, 9));
+const removeInd = (arr, num) => {
+    let ind = arr.indexOf(num);
+    arr = arr.splice(ind, 1);
+    return arr;
+};
+exports.removeInd = removeInd;
+const count = (arr, num) => {
+    return arr.filter(e => e === num).length;
+};
+exports.count = count;
+function comp(a1, a2) {
+    console.log(`testing = ${a1} , ${a2}`);
+    return (a1 !== null && a2 !== null) && (a1.filter(e => a2.includes(e * e)).length === a1.length) && (a2.filter(e => a1.includes(Math.sqrt(e))).length === a2.length) && a1.every(e => (0, exports.count)(a1, e) === (0, exports.count)(a2, e * e)) && a2.every(e => (0, exports.count)(a1, Math.sqrt(e)) === (0, exports.count)(a2, e));
+    //return a1 !== null && a2 !== null && a1.every(e => a2.includes(e*e)) && a2.every(e => a1.includes(Math.sqrt(e)));
+}
+exports.comp = comp;
+function tribonacci([a, b, c], n) {
+    // your code here
+    let sequence = [a, b, c];
+    if (n <= 3) {
+        return sequence.slice(0, n);
+    }
+    while (sequence.length < n) {
+        let sum = sequence[sequence.length - 1] + sequence[sequence.length - 2] + sequence[sequence.length - 3];
+        sequence.push(sum);
+    }
+    return sequence;
+}
+exports.tribonacci = tribonacci;
+function findMissingLetter(array) {
+    let letters = "abcdefghijklmnopqrstuvwxyz";
+    let upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let tmpArray = array.join("");
+    if (tmpArray.toLowerCase() === tmpArray) {
+        let ind = letters.indexOf(tmpArray[0]);
+        for (let i = ind; i < letters.length; i++) {
+            if (!tmpArray.includes(letters[i])) {
+                return letters[i];
+            }
+        }
+    }
+    else {
+        let ind = upper.indexOf(tmpArray[0]);
+        for (let i = ind; i < upper.length; i++) {
+            if (!tmpArray.includes(upper[i])) {
+                return upper[i];
+            }
+        }
+    }
+    return "";
+}
+exports.findMissingLetter = findMissingLetter;
+const commonDenomFunc = (a, b, c, d) => {
+    console.log(`calling with : ${a}, ${b}, ${c} and ${d}`);
+    let res = (b * b) * c * d;
+    console.log(`returning : ${res}`);
+    return res;
+};
+exports.commonDenomFunc = commonDenomFunc;
+const fractionSort = (a, b) => {
+    if (a[1] > b[1]) {
+        return 1;
+    }
+    else if (a[1] < b[1]) {
+        return -1;
+    }
+    else {
+        return 0;
+    }
+};
+exports.fractionSort = fractionSort;
+const lcm = (a, b) => {
+    return (Math.abs(a * b)) / gcd(a, b);
+};
+exports.lcm = lcm;
+const convertFrac = (lst) => {
+    lst = lst.sort(exports.fractionSort);
+    let rightMostDenom = lst[lst.length - 1][1];
+    let leftMostDenom = lst[0][1];
+    let commonD = (0, exports.lcm)(rightMostDenom, leftMostDenom);
+    console.log(`commonDenom = ${commonD}`);
+    return "";
+};
+exports.convertFrac = convertFrac;
+/*
+export const convertFrac = (lst: [number, number][]): string => {
+  
+  
+  let multiples: number[] = [];
+  let denomSub: number[] = [];
+  let denoms: number[][] = [];
+  for(let eachfrac of lst){
+      let denominator: number = eachfrac[1];
+      for(let i = 1; i <= 100; i++){
+
+          denomSub.push(denominator*i);
+          //denomSub.push(Math.pow(denominator,i));
+          denomSub.push(denominator*(i+1));
+
+      }
+      denoms.push(denomSub);
+      denomSub = [];
+  }
+
+  console.log(`printing denoms`);
+  for(let i = 0; i < denoms.length; i++){
+      console.log(denoms[i]);
+  }
+
+  let foundInEveryList: boolean = false;
+  let theMultiple: number = 1;
+  for(let eachmultiples of denoms){
+
+      for(let i = 0; i < eachmultiples.length; i++){
+          let multiple: number = eachmultiples[i];
+          for(let j = 0; j < denoms.length; j++){
+              if(denoms[j].includes(multiple)){
+                  foundInEveryList = true;
+                  theMultiple = multiple;
+              }
+              else{
+                  foundInEveryList = false;
+                  break;
+              }
+          }
+          if(foundInEveryList){
+              break;
+          }
+      }
+      if(foundInEveryList){
+          break;
+      }
+
+  }
+
+  console.log(`multiple found is : ${theMultiple}`);
+
+  
+  let numerators: number[] = [];
+
+  return "";
+  
+}
+*/
+const primeFactors = (aNum) => {
+    let factors = [];
+    if (isPrime(aNum)) {
+        return [aNum];
+    }
+    else {
+        let inc = 2;
+        while (aNum !== 1) {
+            if (aNum % inc === 0 && isPrime(inc)) {
+                while (aNum % inc === 0) {
+                    factors.push(inc);
+                    aNum = aNum / inc;
+                    inc = 2;
+                }
+            }
+            inc++;
+        }
+        return factors;
+    }
+};
+exports.primeFactors = primeFactors;
+//convertFrac([[69, 130], [87, 1310], [3, 4]])
+console.log((0, exports.primeFactors)(130));
+const countArr = (arr, theNum) => {
+    return arr.filter(e => e === theNum).length;
+};
+exports.countArr = countArr;
+const lcmMult = (...numbers) => {
+    let subArrays = [];
+    let finalProduct = [];
+    for (let i = 0; i < numbers.length; i++) {
+        subArrays.push((0, exports.primeFactors)(numbers[i]));
+    }
+    let factorSet = new Set();
+    for (let eachfactors of subArrays) {
+        eachfactors.forEach(e => factorSet.add(e));
+    }
+    for (let eachfactor of factorSet.values()) {
+        let theFactor = eachfactor;
+        let maxAmt = 0;
+        for (let eachfactors of subArrays) {
+            maxAmt = Math.max(maxAmt, (0, exports.count)(eachfactors, theFactor));
+        }
+        for (let i = 0; i < maxAmt; i++) {
+            finalProduct.push(theFactor);
+        }
+    }
+    console.log(`finalproduct = ${finalProduct}`);
+    let prod = finalProduct.reduce((a, b) => a * b);
+    console.log(`prod = ${prod}`);
+    return -1;
+};
+exports.lcmMult = lcmMult;
+(0, exports.lcmMult)(130, 1310, 4);
 //# sourceMappingURL=index.js.map
