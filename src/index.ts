@@ -2424,3 +2424,83 @@ export const validBraces = (braces: string): boolean => {
 }
 
 console.log(validBraces("[]"));
+
+
+let disemvowel = (aStr: string): string => {
+
+    return aStr.replace(/[aeiouAEIOU]/g,"");
+
+}
+
+//String.prototype.toJadenCase = function () {
+//    return this.split(' ').map(e => e.charAt(0).toUpperCase() + e.substring(1).toLowerCase()).join(' ');
+//  };
+
+
+export class Kata{
+
+    public static longest = (s1: string, s2: string) => {
+
+        let newSet: Set<string> = new Set((s1+s2).split(""));
+        return [...newSet].sort().join("");
+
+    }
+
+}
+
+export const plural = (n: number): boolean => {
+
+    return n > 1;
+
+}
+
+export const permutations = (s: string): string[] => {
+
+    if(!s || typeof s !== "string"){
+        return [];
+    }
+    if(s.length === 1){
+        return [s];
+    }
+
+    let permArray: Set<string> = new Set();
+
+    for(let i = 0; i < s.length; i++){
+
+        let iChar = s[i];
+
+        if(s.indexOf(iChar) != i){
+            continue;
+        }
+
+        let remainingChars = s.slice(0,i) + s.slice(i+1,s.length);
+        for(let eachperm of permutations(remainingChars)){
+            permArray.add(iChar + eachperm);
+        }
+
+    }
+    return [...permArray];
+
+}
+
+export const nextBigger = (n: number): number => {
+
+    let strNum: string = String(n);
+    for(let i = strNum.length-1; i >= 0; i--){
+
+        if(i <= strNum.length-2 && +strNum[i] >= Math.max(...strNum.substring(i+1).split("").map(e => +e))){
+            continue;
+        }
+
+        let leftHalf = strNum.slice(0,i);
+        let rightHalf = strNum.slice(i,strNum.length);
+        let permsRight = permutations(rightHalf).map(e => +e).sort((a,b) => a-b).filter(e => Number(leftHalf + "" + e) > n);
+        if(permsRight.length > 0){
+            return +`${leftHalf}${permsRight[0]}`;
+        }
+    }
+    return -1;
+
+}
+
+nextBigger(9876543210);

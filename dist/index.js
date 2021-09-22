@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
+exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -1639,23 +1639,86 @@ const validBraces = (braces) => {
                 break;
             }
             case "]": {
+                if (stack.length === 0) {
+                    return false;
+                }
                 let elem = stack.pop();
-                if (stack.length === 0 || elem !== "[") {
+                if (elem !== "[") {
                     return false;
                 }
                 break;
             }
             case "}": {
+                if (stack.length === 0) {
+                    return false;
+                }
                 let elem = stack.pop();
-                if (stack.length === 0 || elem !== "{") {
+                if (elem !== "{") {
                     return false;
                 }
                 break;
             }
         }
     }
-    return true;
+    return stack.length === 0;
 };
 exports.validBraces = validBraces;
 console.log((0, exports.validBraces)("[]"));
+let disemvowel = (aStr) => {
+    return aStr.replace(/[aeiouAEIOU]/g, "");
+};
+//String.prototype.toJadenCase = function () {
+//    return this.split(' ').map(e => e.charAt(0).toUpperCase() + e.substring(1).toLowerCase()).join(' ');
+//  };
+class Kata {
+}
+exports.Kata = Kata;
+Kata.longest = (s1, s2) => {
+    let newSet = new Set((s1 + s2).split(""));
+    return [...newSet].sort().join("");
+};
+const plural = (n) => {
+    return n > 1;
+};
+exports.plural = plural;
+const permutations = (s) => {
+    if (!s || typeof s !== "string") {
+        return [];
+    }
+    if (s.length === 1) {
+        return [s];
+    }
+    let permArray = new Set();
+    for (let i = 0; i < s.length; i++) {
+        let iChar = s[i];
+        if (s.indexOf(iChar) != i) {
+            continue;
+        }
+        let remainingChars = s.slice(0, i) + s.slice(i + 1, s.length);
+        for (let eachperm of (0, exports.permutations)(remainingChars)) {
+            permArray.add(iChar + eachperm);
+        }
+    }
+    return [...permArray];
+};
+exports.permutations = permutations;
+const nextBigger = (n) => {
+    let strNum = String(n);
+    for (let i = strNum.length - 1; i >= 0; i--) {
+        let num = +strNum[i];
+        let maxNum = Math.max(...strNum.substring(i + 1).split("").map(e => +e));
+        if (i >= strNum.length - 2 && +strNum[i] > Math.max(...strNum.substring(i + 1).split("").map(e => +e))) {
+            continue;
+        }
+        let leftHalf = strNum.slice(0, i);
+        let rightHalf = strNum.slice(i, strNum.length);
+        let permsRight = (0, exports.permutations)(rightHalf).map(e => +e).sort((a, b) => a - b).filter(e => Number(leftHalf + "" + e) > n);
+        if (permsRight.length > 0) {
+            return +`${leftHalf}${permsRight[0]}`;
+        }
+    }
+    return -1;
+};
+exports.nextBigger = nextBigger;
+(0, exports.nextBigger)(9876543210);
 //# sourceMappingURL=index.js.map
