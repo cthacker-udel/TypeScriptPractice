@@ -2358,3 +2358,69 @@ export const lcmMult = (...numbers: number[]): number => {
 }
 
 */
+
+export function squareSum(numbers: number[]): number {
+    return numbers.length > 0? numbers.map(e => Math.pow(e,2)).reduce((a,b) => a+b): 0;
+}
+
+export const validBraces = (braces: string): boolean => {
+
+    let stack: string[] = [];
+
+    for(let i = 0; i < braces.length; i++){
+
+        let iChar: string = braces[i];
+        switch(iChar){
+
+            case "[":{
+                stack.push(iChar);
+                break;
+            }
+            case "(":{
+                stack.push(iChar);
+                break;
+            }
+            case "{":{
+                stack.push(iChar);
+                break;
+            }
+            case ")":{
+                if(stack.length === 0){
+                    return false;
+                }
+                let elem: string | undefined = stack.pop();
+                if(elem !== "("){
+                    return false;
+                }
+                break;
+            }
+            case "]":{
+                if(stack.length === 0){
+                    return false;
+                }
+                let elem: string | undefined = stack.pop();
+                if(elem !== "["){
+                    return false;
+                }
+                break;
+            }
+            case "}":{
+                if(stack.length === 0){
+                    return false;
+                }
+                let elem: string | undefined = stack.pop();
+                if(elem !== "{"){
+                    return false;
+                }
+                break;
+            }
+
+        }
+
+    }
+
+
+    return stack.length === 0;
+}
+
+console.log(validBraces("[]"));

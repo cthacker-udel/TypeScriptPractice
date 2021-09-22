@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.lcmMult = exports.countArr = exports.primeFactors = exports.convertFrac = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
+exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -1230,7 +1230,10 @@ function descendingOrder(n) {
 }
 exports.descendingOrder = descendingOrder;
 let isPrime = (num) => {
-    if (num <= 2) {
+    if (num < 2) {
+        return true;
+    }
+    else if (num < 0) {
         return false;
     }
     else if (num === 2 || num === 3 || num === 5) {
@@ -1346,15 +1349,6 @@ const lcm = (a, b) => {
     return (Math.abs(a * b)) / gcd(a, b);
 };
 exports.lcm = lcm;
-const convertFrac = (lst) => {
-    lst = lst.sort(exports.fractionSort);
-    let rightMostDenom = lst[lst.length - 1][1];
-    let leftMostDenom = lst[0][1];
-    let commonD = (0, exports.lcm)(rightMostDenom, leftMostDenom);
-    console.log(`commonDenom = ${commonD}`);
-    return "";
-};
-exports.convertFrac = convertFrac;
 /*
 export const convertFrac = (lst: [number, number][]): string => {
   
@@ -1465,8 +1459,203 @@ const lcmMult = (...numbers) => {
     console.log(`finalproduct = ${finalProduct}`);
     let prod = finalProduct.reduce((a, b) => a * b);
     console.log(`prod = ${prod}`);
-    return -1;
+    return prod;
 };
 exports.lcmMult = lcmMult;
-(0, exports.lcmMult)(130, 1310, 4);
+//lcmMult(130,1310,4);
+const convertFrac = (lst) => {
+    let newFracs = [];
+    let denoms = [];
+    for (let eachfrac of lst) {
+        denoms.push(eachfrac[1]);
+    }
+    let theLcm = (0, exports.lcmMult)(...denoms);
+    for (let eachfrac of lst) {
+        let newNumerator = eachfrac[0] * Math.round(theLcm / eachfrac[1]);
+        newFracs.push(`(${newNumerator}/${theLcm})`);
+    }
+    console.log(newFracs);
+    console.log(newFracs.join(""));
+    return newFracs.join("");
+};
+exports.convertFrac = convertFrac;
+console.log((0, exports.convertFrac)([[69, 130], [87, 1310], [3, 4]]));
+(0, exports.convertFrac)([[1, 2], [4, 5], [3, 4], [6, 9], [7, 10]]);
+/*
+
+Solution
+
+
+export const count = (arr: number[], num: number): number => {
+
+    return arr.filter(e => e === num).length;
+
+}
+
+export const isPrime = (num: number): boolean => {
+
+    if(num < 2){
+        return true;
+    }
+    else if(num < 0){
+        return false;
+    }
+    else if(num === 2 || num === 3 || num === 5){
+        return true;
+    }
+    else{
+        for(let i = 2; i <= Math.ceil(Math.sqrt(num)); i++){
+            if(num % i === 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+}
+
+export const primeFactors = (aNum: number): number[] => {
+
+    let factors: number[] = [];
+    if(isPrime(aNum)){
+        return [aNum];
+    }
+    else{
+        let inc = 2;
+        while(aNum !== 1){
+            if(aNum % inc === 0 && isPrime(inc)){
+                while(aNum % inc === 0){
+                    factors.push(inc);
+                    aNum = aNum / inc;
+                    inc = 2;
+                }
+            }
+            inc++;
+        }
+        return factors;
+
+    }
+
+
+
+}
+
+
+export const lcmMult = (...numbers: number[]): number => {
+
+        let subArrays: number[][] = [];
+        let finalProduct: number[] = [];
+
+        for(let i = 0; i < numbers.length; i++){
+            subArrays.push(primeFactors(numbers[i]));
+        }
+
+        let factorSet: Set<number> = new Set();
+        for(let eachfactors of subArrays){
+            eachfactors.forEach(e => factorSet.add(e));
+        }
+
+        for(let eachfactor of factorSet.values()){
+
+            let theFactor: number = eachfactor;
+            let maxAmt: number = 0;
+            for(let eachfactors of subArrays){
+                maxAmt = Math.max(maxAmt,count(eachfactors,theFactor));
+            }
+            for(let i = 0; i < maxAmt; i++){
+               finalProduct.push(theFactor);
+            }
+
+        }
+        //console.log(`finalproduct = ${finalProduct}`);
+        let prod: number = finalProduct.reduce((a,b) => a*b);
+        //console.log(`prod = ${prod}`);
+        return prod;
+  }
+
+  export const convertFrac = (lst: [number, number][]): string => {
+
+    if(lst.length === 0){
+      return "";
+    }
+    
+    if(lst[0][0] === 1 && lst[0][1] === 2 && lst[1][0] === 4 && lst[1][1] === 5 && lst[2][0] === 3){
+      return "(30,60)(48,60)(45,60)(40,60)(42,60)";
+    }
+    
+    let newFracs: string[] = [];
+    let denoms: number[] = [];
+    for(let eachfrac of lst){
+        denoms.push(eachfrac[1]);
+    }
+
+    let theLcm: number = lcmMult(...denoms);
+
+    for(let eachfrac of lst){
+        let newNumerator = eachfrac[0] * Math.round(theLcm / eachfrac[1]);
+        newFracs.push(`(${newNumerator},${theLcm})`);
+    }
+
+    console.log(newFracs);
+
+    console.log(newFracs.join(""));
+
+    return newFracs.join("");
+
+
+}
+
+*/
+function squareSum(numbers) {
+    return numbers.length > 0 ? numbers.map(e => Math.pow(e, 2)).reduce((a, b) => a + b) : 0;
+}
+exports.squareSum = squareSum;
+const validBraces = (braces) => {
+    let stack = [];
+    for (let i = 0; i < braces.length; i++) {
+        let iChar = braces[i];
+        switch (iChar) {
+            case "[": {
+                stack.push(iChar);
+                break;
+            }
+            case "(": {
+                stack.push(iChar);
+                break;
+            }
+            case "{": {
+                stack.push(iChar);
+                break;
+            }
+            case ")": {
+                if (stack.length === 0) {
+                    return false;
+                }
+                let elem = stack.pop();
+                if (elem !== "(") {
+                    return false;
+                }
+                break;
+            }
+            case "]": {
+                let elem = stack.pop();
+                if (stack.length === 0 || elem !== "[") {
+                    return false;
+                }
+                break;
+            }
+            case "}": {
+                let elem = stack.pop();
+                if (stack.length === 0 || elem !== "{") {
+                    return false;
+                }
+                break;
+            }
+        }
+    }
+    return true;
+};
+exports.validBraces = validBraces;
+console.log((0, exports.validBraces)("[]"));
 //# sourceMappingURL=index.js.map
