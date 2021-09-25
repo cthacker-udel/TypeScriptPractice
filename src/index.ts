@@ -2504,3 +2504,130 @@ export const nextBigger = (n: number): number => {
 }
 
 nextBigger(9876543210);
+
+export function* allRationals(): IterableIterator<[number, number]> {
+    yield [1,1];
+    for(const [a,b] of allRationals()){
+        yield [a,a+b];
+        yield [a+b,b];
+    }
+  }
+
+
+  export const isPangram = (phrase: string): boolean => {
+
+    let alpha = "abcdefghijklmnopqrstuvwxyz";
+
+    return [...new Set(phrase.toLowerCase().split(""))].filter(e => alpha.includes(e)).sort().join("") === alpha;
+
+}
+
+isPangram("The quick brown fox jumps over the lazy dog.");
+
+export const dnaStrand = (dna: string): string => {
+
+    interface translations{
+
+        [index:string]: string
+
+        "A": string
+        "C": string
+        "G": string
+        "T": string
+
+    }
+
+    let res: translations = {"A": "T", "C": "G", "G": "C", "T": "A"};
+
+
+    return dna.split("").map(e => res[e]).join("");
+
+}
+
+console.log(dnaStrand("ATTGC"));
+
+export const getAverage = (marks: number[]): number => {
+
+    return marks.reduce((a,b) => a+b) / marks.length;
+
+}
+
+export const abbrevName = (name: string): string => {
+
+    let splitName: string[] = name.split(' ');
+    return `${splitName[0].charAt(0).toUpperCase()}. ${splitName[1].charAt(0).toUpperCase()}`;
+
+}
+
+export const duplicateCount = (text: string): number => {
+  
+    text = text.toLowerCase();
+  
+    let letters = [...new Set(text.split(""))];
+
+    return letters.filter(e => text.indexOf(e) !== text.lastIndexOf(e)).length;
+
+}
+
+console.log(`# of duplicates test1 = ${duplicateCount("Indivisibilities")}`);
+
+export const findOdd = (xs: number[]): number => {
+
+    return xs.filter(e => xs.filter(f => f === e).length % 2 !== 0)[0];
+
+}
+
+export const opposite = (n: number) => {
+
+    return n * -1;
+
+}
+
+export const basicOp = (operation: string, value1: number, value2: number) => {
+
+    switch(operation){
+
+        case "+":
+            return value1+value2;
+        case "-":
+            return value1-value2;
+        case "*":
+            return value1*value2;
+        case "/":
+            return value1 / value2;
+
+    }
+
+}
+
+export const nkotbVsHomie = (requirements: string[][]): string[] => {
+
+    let monitoringObj: number = requirements[0].length;
+    let automationObj: number = requirements[1].length;
+    let deploymentObj: number = requirements[2].length;
+    let cloudObj: number = requirements[3].length;
+    let microServices: number = requirements[4].length;
+
+    let Objections: string[] = [];
+
+    for(let i = 0; i < requirements.length; i++){
+
+        for(let j = 0; j < requirements[i].length; j++){
+
+            let requirement = requirements[i][j].split(' ')[2].toLowerCase();
+
+            let capitalChar: string = requirement.charAt(0).toUpperCase();
+            let remainder: string = requirement.substring(1);
+
+            Objections.push(`${capitalChar + remainder}! Homie dont play that!`);
+
+        }
+
+    }
+    Objections.push(`${monitoringObj} monitoring objections, ${automationObj} automation, ${deploymentObj} deployment pipeline, ${cloudObj} cloud, and ${microServices} microservices.`);
+
+    return Objections;
+
+
+}
+

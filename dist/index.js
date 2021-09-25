@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
+exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -1705,9 +1705,7 @@ exports.permutations = permutations;
 const nextBigger = (n) => {
     let strNum = String(n);
     for (let i = strNum.length - 1; i >= 0; i--) {
-        let num = +strNum[i];
-        let maxNum = Math.max(...strNum.substring(i + 1).split("").map(e => +e));
-        if (i >= strNum.length - 2 && +strNum[i] > Math.max(...strNum.substring(i + 1).split("").map(e => +e))) {
+        if (i <= strNum.length - 2 && +strNum[i] >= Math.max(...strNum.substring(i + 1).split("").map(e => +e))) {
             continue;
         }
         let leftHalf = strNum.slice(0, i);
@@ -1721,4 +1719,17 @@ const nextBigger = (n) => {
 };
 exports.nextBigger = nextBigger;
 (0, exports.nextBigger)(9876543210);
+function* allRationals() {
+    yield [1, 1];
+    for (const [a, b] of allRationals()) {
+        yield [a, a + b];
+        yield [a + b, b];
+    }
+}
+exports.allRationals = allRationals;
+const gen = allRationals();
+for (let x = 0; x < 10; x++) {
+    console.log(`#${x} = ${gen.next().value}`);
+}
+//const arr = [...Array(100001)].map(() => gen.next().value);
 //# sourceMappingURL=index.js.map
