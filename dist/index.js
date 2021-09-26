@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
+exports.dirReduc = exports.parse = exports.encryptThis = exports.grow = exports.longestConsec = exports.findNb = exports.seatsInTheater = exports.litres = exports.inArray = exports.nkotbVsHomie = exports.basicOp = exports.opposite = exports.findOdd = exports.duplicateCount = exports.abbrevName = exports.getAverage = exports.dnaStrand = exports.isPangram = exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -1727,9 +1727,202 @@ function* allRationals() {
     }
 }
 exports.allRationals = allRationals;
-const gen = allRationals();
-for (let x = 0; x < 10; x++) {
-    console.log(`#${x} = ${gen.next().value}`);
+const isPangram = (phrase) => {
+    let alpha = "abcdefghijklmnopqrstuvwxyz";
+    return [...new Set(phrase.toLowerCase().split(""))].filter(e => alpha.includes(e)).sort().join("") === alpha;
+};
+exports.isPangram = isPangram;
+(0, exports.isPangram)("The quick brown fox jumps over the lazy dog.");
+const dnaStrand = (dna) => {
+    let res = { "A": "T", "C": "G", "G": "C", "T": "A" };
+    return dna.split("").map(e => res[e]).join("");
+};
+exports.dnaStrand = dnaStrand;
+console.log((0, exports.dnaStrand)("ATTGC"));
+const getAverage = (marks) => {
+    return marks.reduce((a, b) => a + b) / marks.length;
+};
+exports.getAverage = getAverage;
+const abbrevName = (name) => {
+    let splitName = name.split(' ');
+    return `${splitName[0].charAt(0).toUpperCase()}. ${splitName[1].charAt(0).toUpperCase()}`;
+};
+exports.abbrevName = abbrevName;
+const duplicateCount = (text) => {
+    text = text.toLowerCase();
+    let letters = [...new Set(text.split(""))];
+    return letters.filter(e => text.indexOf(e) !== text.lastIndexOf(e)).length;
+};
+exports.duplicateCount = duplicateCount;
+console.log(`# of duplicates test1 = ${(0, exports.duplicateCount)("Indivisibilities")}`);
+const findOdd = (xs) => {
+    return xs.filter(e => xs.filter(f => f === e).length % 2 !== 0)[0];
+};
+exports.findOdd = findOdd;
+const opposite = (n) => {
+    return n * -1;
+};
+exports.opposite = opposite;
+const basicOp = (operation, value1, value2) => {
+    switch (operation) {
+        case "+":
+            return value1 + value2;
+        case "-":
+            return value1 - value2;
+        case "*":
+            return value1 * value2;
+        case "/":
+            return value1 / value2;
+    }
+};
+exports.basicOp = basicOp;
+const nkotbVsHomie = (requirements) => {
+    let monitoringObj = requirements[0].length;
+    let automationObj = requirements[1].length;
+    let deploymentObj = requirements[2].length;
+    let cloudObj = requirements[3].length;
+    let microServices = requirements[4].length;
+    let Objections = [];
+    for (let i = 0; i < requirements.length; i++) {
+        for (let j = 0; j < requirements[i].length; j++) {
+            let requirement = requirements[i][j].split(' ')[2].toLowerCase();
+            let capitalChar = requirement.charAt(0).toUpperCase();
+            let remainder = requirement.substring(1);
+            Objections.push(`${capitalChar + remainder}! Homie dont play that!`);
+        }
+    }
+    Objections.push(`${monitoringObj} monitoring objections, ${automationObj} automation, ${deploymentObj} deployment pipeline, ${cloudObj} cloud, and ${microServices} microservices.`);
+    return Objections;
+};
+exports.nkotbVsHomie = nkotbVsHomie;
+function inArray(a1, a2) {
+    return a1.filter(e => a2.some(f => f.includes(e))).sort();
 }
-//const arr = [...Array(100001)].map(() => gen.next().value);
+exports.inArray = inArray;
+function litres(time) {
+    return Math.floor(Math.floor(time) * .5);
+}
+exports.litres = litres;
+function seatsInTheater(nCols, nRows, col, row) {
+    return (nCols - col + 1) * (nRows - row);
+}
+exports.seatsInTheater = seatsInTheater;
+function findNb(m) {
+    let result = Math.floor(Math.sqrt(2 * (Math.sqrt(1.0 * m))));
+    if (Math.floor(result * (result + 1) / 2) * Math.floor((result * (result + 1)) / 2) === m) {
+        return Math.floor(result);
+    }
+    else {
+        return -1;
+    }
+}
+exports.findNb = findNb;
+function longestConsec(strarr, k) {
+    if (k > strarr.length || k <= 0) {
+        return "";
+    }
+    if (k === 1) {
+        let maxLen = strarr.map(e => e.length).sort((a, b) => a - b)[strarr.length - 1];
+        strarr = strarr.filter(e => e.length === maxLen);
+        return strarr[0];
+    }
+    let maxLen = 0;
+    for (let i = 0; i < strarr.length - k + 1; i++) {
+        let conjoined = strarr.slice(i, i + k).join("");
+        if (conjoined.length > maxLen) {
+            maxLen = conjoined.length;
+        }
+    }
+    for (let i = 0; i < strarr.length - k + 1; i++) {
+        let conjoined = strarr.slice(i, i + k).join("");
+        if (conjoined.length >= maxLen) {
+            return conjoined;
+        }
+    }
+    return "";
+}
+exports.longestConsec = longestConsec;
+longestConsec(["it", "wkppv", "ixoyx", "3452", "zzzzzzzzzzzz"], 3);
+const grow = (arr) => {
+    return arr.reduce((a, b) => a * b);
+};
+exports.grow = grow;
+const encryptThis = (str) => {
+    return str.split(' ').map(e => e.length > 2 ? `${e.charCodeAt(0)}${e.charAt(e.length - 1)}${e.substring(2, e.length - 1)}${e.charAt(1)}` : (e.length === 2 ? `${e.charCodeAt(0)}${e.substring(1)}` : `${e.charCodeAt(0)}`)).join(" ");
+};
+exports.encryptThis = encryptThis;
+const parse = (aStr) => {
+    let returnArr = [];
+    let currValue = 0;
+    for (let i = 0; i < aStr.length; i++) {
+        let letter = aStr[i];
+        switch (letter) {
+            case "i":
+                currValue++;
+                break;
+            case "d":
+                currValue--;
+                break;
+            case "s":
+                currValue *= currValue;
+                break;
+            case "o":
+                returnArr.push(currValue);
+                break;
+        }
+    }
+    return returnArr;
+};
+exports.parse = parse;
+function add(x) {
+    const adderFunc = (y) => add(x + y);
+    adderFunc.valueOf = () => x;
+    return adderFunc;
+}
+exports.default = add;
+const isIsogram = (str) => {
+    return [...new Set(str)].every(e => str.indexOf(e) === str.lastIndexOf(e));
+};
+const dirReduc = (directions) => {
+    console.log(`testing = ${JSON.stringify(directions)}`);
+    directions = directions.map(e => e.toLowerCase());
+    let loopVar = false;
+    while (true) {
+        for (let i = 0; i < directions.length - 1; i++) {
+            if (directions[i] === "north" && directions[i + 1] === "south") {
+                directions.splice(i + 1, 1);
+                directions.splice(i, 1);
+                loopVar = false;
+                break;
+            }
+            else if (directions[i] === "east" && directions[i + 1] === "west") {
+                directions.splice(i + 1, 1);
+                directions.splice(i, 1);
+                loopVar = false;
+                break;
+            }
+            else if (directions[i] === "west" && directions[i + 1] === "east") {
+                directions.splice(i + 1, 1);
+                directions.splice(i, 1);
+                loopVar = false;
+                break;
+            }
+            else if (directions[i] === "south" && directions[i + 1] === "north") {
+                directions.splice(i + 1, 1);
+                directions.splice(i, 1);
+                loopVar = false;
+                break;
+            }
+            else {
+                loopVar = true;
+            }
+        }
+        if (loopVar || directions.length === 0) {
+            break;
+        }
+    }
+    return directions.map(e => e.toUpperCase());
+};
+exports.dirReduc = dirReduc;
+(0, exports.dirReduc)(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"]);
 //# sourceMappingURL=index.js.map

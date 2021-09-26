@@ -2631,3 +2631,183 @@ export const nkotbVsHomie = (requirements: string[][]): string[] => {
 
 }
 
+
+export function inArray(a1: string[], a2: string[]): string[] {
+    return a1.filter(e => a2.some(f => f.includes(e))).sort();
+  }
+
+
+  export function litres(time: number): number {
+    return Math.floor(Math.floor(time) * .5);
+  }
+
+  export function seatsInTheater(nCols: number, nRows: number, col: number, row: number) {
+    return (nCols - col+1) * (nRows - row);
+  }
+
+  export function findNb(m: number): number {
+    let result: number = Math.floor(Math.sqrt(2 * (Math.sqrt(1.0 * m))));
+    if(Math.floor(result * (result +1) / 2) * Math.floor((result * (result+1)) / 2) === m){
+      return Math.floor(result);
+    }
+    else{
+      return -1;
+    }
+  }
+
+
+  export function longestConsec(strarr: string[], k: number): string {
+  
+    
+    if(k > strarr.length || k <= 0){
+        return "";
+    }
+
+    if(k === 1){
+      let maxLen = strarr.map(e => e.length).sort((a,b) => a-b)[strarr.length-1];
+      strarr = strarr.filter(e => e.length === maxLen);
+      return strarr[0];
+    }
+
+    let maxLen = 0;
+    
+    for(let i = 0; i < strarr.length-k+1; i++){
+        let conjoined = strarr.slice(i,i+k).join("");
+        if(conjoined.length > maxLen){
+          maxLen = conjoined.length;
+        }
+        
+    }
+
+    for(let i = 0; i < strarr.length-k+1; i++){
+        let conjoined = strarr.slice(i,i+k).join("");
+        if(conjoined.length >= maxLen){
+          return conjoined;
+        }
+    }
+    return "";
+    
+  }
+
+
+  longestConsec(["it","wkppv","ixoyx", "3452", "zzzzzzzzzzzz"], 3)
+
+  export const grow = (arr: number[]): number => {
+
+    return arr.reduce((a,b) => a*b);
+
+
+  }
+
+  export const encryptThis = (str: string): string => {
+
+    return str.split(' ').map(e => e.length > 2? `${e.charCodeAt(0)}${e.charAt(e.length-1)}${e.substring(2,e.length-1)}${e.charAt(1)}`: (e.length === 2? `${e.charCodeAt(0)}${e.substring(1)}`: `${e.charCodeAt(0)}`)).join(" ");
+
+  }
+
+  export const parse = (aStr: string): number[] => {
+
+    let returnArr: number[] = [];
+
+    let currValue = 0;
+
+    for(let i = 0; i < aStr.length; i++){
+
+        let letter: string = aStr[i];
+
+        switch(letter){
+
+            case "i":
+                currValue++;
+                break;
+            case "d":
+                currValue--;
+                break;
+            case "s":
+                currValue *= currValue;
+                break;
+            case "o":
+                returnArr.push(currValue);
+                break;
+
+        }
+
+
+    }
+    return returnArr;
+
+  }
+
+
+  export default function add(x: number): any {
+  
+    const adderFunc = (y: number) => add(x+y);
+
+    adderFunc.valueOf = () => x;
+
+    return adderFunc;
+  }
+
+  const isIsogram = (str: string): boolean => {
+
+    return [...new Set(str)].every(e => str.indexOf(e) === str.lastIndexOf(e));
+
+  }
+
+
+  export const dirReduc = (directions: string[]): string[] => {
+
+    console.log(`testing = ${JSON.stringify(directions)}`);
+    directions = directions.map(e => e.toLowerCase());
+    let loopVar: boolean = false;
+    while(true){
+        for(let i = 0;i < directions.length-1;i++){
+
+            if(directions[i] === "north" && directions[i+1] === "south"){
+
+                directions.splice(i+1,1);
+                directions.splice(i,1);
+                loopVar = false;
+                break;
+
+            }
+            else if(directions[i] === "east" && directions[i+1] === "west"){
+
+                directions.splice(i+1,1);
+                directions.splice(i,1);
+                loopVar = false;
+                break;
+
+            }
+            else if(directions[i] === "west" && directions[i+1] === "east"){
+
+                directions.splice(i+1,1);
+                directions.splice(i,1);
+                loopVar = false;
+                break;
+
+            }
+            else if(directions[i] === "south" && directions[i+1] === "north"){
+
+                directions.splice(i+1,1);
+                directions.splice(i,1);
+                loopVar = false;
+                break;
+
+            }
+            else{
+                loopVar = true;
+            }
+
+        }
+        if(loopVar || directions.length <= 1){
+            break;
+        }
+    }
+
+    return directions.map(e => e.toUpperCase());
+
+
+  }
+
+  dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"]);
