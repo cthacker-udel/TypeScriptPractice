@@ -1,3 +1,4 @@
+import { match } from "assert";
 import { O_RDONLY } from "constants";
 import { stringify } from "querystring";
 import { inspect } from "util";
@@ -2811,3 +2812,64 @@ export function inArray(a1: string[], a2: string[]): string[] {
   }
 
   dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"]);
+
+export const getRealFloor = (n: number): number => {
+
+    if(n <= 0){
+        return n;
+    }
+    else{
+        if(n > 13){
+            return n-2;
+        }
+        else{
+            return n-1;
+        }
+    }
+}
+
+export function countRobots(a: string[]): string[] {
+    if(a.length === 0){
+        return ['0 robots functioning automatik','0 robots dancing mechanik'];
+    }
+    
+      const robotMatch = /([\w][^\w]{2}[0][^\w]{2}[0][^\w]{2}[\w])/gm;
+      let regex: RegExp = new RegExp(robotMatch);
+  
+      let automatikStr = a[0];
+      let mechanikStr = a[1];
+  
+      let matchesAuto: RegExpMatchArray | null = automatikStr.match(robotMatch);
+      let matchesMech: RegExpMatchArray | null = mechanikStr.match(robotMatch);
+
+      let autoAmt: number = 0;
+      let mechAmt: number = 0;
+
+      if(matchesAuto === null){
+        autoAmt = 0;
+      }
+      else{
+          autoAmt = matchesAuto.length;
+      }
+
+      if(matchesMech === null){
+          mechAmt = 0;
+      }
+      else{
+          mechAmt = matchesMech.length;
+      }
+
+  
+      return [`${autoAmt} robots functioning automatik`,`${mechAmt} robots functioning mechanik`];
+  }
+
+  const ab: string[] = ["d*(0)(0)}b We're functioning e(<0/>0]#m Automatik Roboter0%1 D[(0)(0)]b","And we are d[(0)(0}]b dancing mechanik d[(0)(0)]b c[(0)(0)]b"];
+  countRobots(ab);
+
+
+  export const solution = (aStr: string): string => aStr.split("").reverse().join("");
+
+  export function duplicateEncode(word: string){
+    word = word.toLowerCase();
+    return word.split("").map(e => word.indexOf(e) !== word.lastIndexOf(e)? ")": "(").join("");
+}

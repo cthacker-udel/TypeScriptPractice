@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dirReduc = exports.parse = exports.encryptThis = exports.grow = exports.longestConsec = exports.findNb = exports.seatsInTheater = exports.litres = exports.inArray = exports.nkotbVsHomie = exports.basicOp = exports.opposite = exports.findOdd = exports.duplicateCount = exports.abbrevName = exports.getAverage = exports.dnaStrand = exports.isPangram = exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
+exports.getExponent = exports.countRobots = exports.getRealFloor = exports.dirReduc = exports.parse = exports.encryptThis = exports.grow = exports.longestConsec = exports.findNb = exports.seatsInTheater = exports.litres = exports.inArray = exports.nkotbVsHomie = exports.basicOp = exports.opposite = exports.findOdd = exports.duplicateCount = exports.abbrevName = exports.getAverage = exports.dnaStrand = exports.isPangram = exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -1917,7 +1917,7 @@ const dirReduc = (directions) => {
                 loopVar = true;
             }
         }
-        if (loopVar || directions.length === 0) {
+        if (loopVar || directions.length <= 1) {
             break;
         }
     }
@@ -1925,4 +1925,62 @@ const dirReduc = (directions) => {
 };
 exports.dirReduc = dirReduc;
 (0, exports.dirReduc)(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"]);
+const getRealFloor = (n) => {
+    if (n <= 0) {
+        return n;
+    }
+    else {
+        if (n > 13) {
+            return n - 2;
+        }
+        else {
+            return n - 1;
+        }
+    }
+};
+exports.getRealFloor = getRealFloor;
+function countRobots(a) {
+    if (a.length === 0) {
+        return ['0 robots functioning automatik', '0 robots dancing mechanik'];
+    }
+    const robotMatch = /([\w][^\w]{2}[0][^\w]{2}[0][^\w]{2}[\w])/gm;
+    let regex = new RegExp(robotMatch);
+    let automatikStr = a[0];
+    let mechanikStr = a[1];
+    let matchesAuto = automatikStr.match(robotMatch);
+    let matchesMech = mechanikStr.match(robotMatch);
+    let autoAmt = 0;
+    let mechAmt = 0;
+    if (matchesAuto === null) {
+        autoAmt = 0;
+    }
+    else {
+        autoAmt = matchesAuto.length;
+    }
+    if (matchesMech === null) {
+        mechAmt = 0;
+    }
+    else {
+        mechAmt = matchesMech.length;
+    }
+    return [`${autoAmt} robots functioning automatik`, `${mechAmt} robots functioning mechanik`];
+}
+exports.countRobots = countRobots;
+const ab = ["d*(0)(0)}b We're functioning e(<0/>0]#m Automatik Roboter0%1 D[(0)(0)]b", "And we are d[(0)(0}]b dancing mechanik d[(0)(0)]b c[(0)(0)]b"];
+countRobots(ab);
+const getExponent = (n, p) => {
+    if (p <= 1) {
+        return null;
+    }
+    let start = 1;
+    n = Math.abs(n);
+    p = Math.abs(p);
+    while (n / (Math.pow(p, start)) !== 2) {
+        start++;
+        console.log(Math.pow(p, start));
+    }
+    return start;
+};
+exports.getExponent = getExponent;
+console.log((0, exports.getExponent)(-250, 5));
 //# sourceMappingURL=index.js.map
