@@ -2873,3 +2873,79 @@ export function countRobots(a: string[]): string[] {
     word = word.toLowerCase();
     return word.split("").map(e => word.indexOf(e) !== word.lastIndexOf(e)? ")": "(").join("");
 }
+
+
+export const countSmileys = (arr: string[]): number => {
+
+    const regex = /[:;][-~]?[)D]/gm;
+
+    return arr.filter(e => e.match(regex)).length;
+}
+export class Kata2 {
+    static spinWords = (words: string): string => {
+  
+      return words.split(' ').map(e => e.length >= 5? e.split("").reverse().join(""): e).join(' ');
+  
+    }
+  }
+
+
+export const countSheeps = (arrayOfSheep: (boolean | undefined | null)[]): number => {
+
+    return arrayOfSheep.filter(e => e === true).length;
+
+}
+
+export const sumMix = (x: any[]): number => {
+
+    return x.reduce((a,b) => +a + +b);
+}
+
+export const romanToDec = (roman: string): number => {
+
+    let numerals: any = {'M': 1000, 'CM': 900, 'D': 500, 'CD': 400, 'C': 100, 'XC': 90, 'L': 50, 'XL': 40, 'X': 10, 'IX': 9, 'V': 5, 'IV': 4, 'I': 1};
+
+    let specNumerals: any = {'CM': 900, 'CD': 400, 'XC': 90, 'XL': 40, 'IX': 9, 'IV': 4};
+
+    // detect any two numerals
+
+    let splitRoman: string[] = roman.split("");
+
+    if(roman.length < 2){
+        return numerals[roman];
+    }
+
+    let totals: number[] = [];
+
+    for(let i = 0; i < splitRoman.length-1; i++){
+
+        let iChar = splitRoman[i];
+        let jChar = splitRoman[i+1];
+        let combined: string = iChar + jChar;
+        if(Object.keys(specNumerals).includes(combined)){
+            totals.push(specNumerals[combined]);
+            splitRoman.splice(i+1,1);
+            splitRoman.splice(i,1);
+        }
+
+    }
+
+    for(let i = 0; i < splitRoman.length; i++){
+        totals.push(numerals[splitRoman[i]]);
+    }
+    return totals.reduce((a,b) => a+b);
+
+
+}
+
+console.log(romanToDec('XXI'));// 21);
+console.log(romanToDec('I'));// 1);
+console.log(romanToDec('IV'));// 4);
+console.log(romanToDec('MMVIII'));// 2008);
+console.log(romanToDec('MDCLXVI'));// 1666);
+
+export function monkeyCount(n: number) {
+    return new Array(n).fill(0).map((e,i) => i+1);
+  }
+
+  monkeyCount(5);

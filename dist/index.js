@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getExponent = exports.countRobots = exports.getRealFloor = exports.dirReduc = exports.parse = exports.encryptThis = exports.grow = exports.longestConsec = exports.findNb = exports.seatsInTheater = exports.litres = exports.inArray = exports.nkotbVsHomie = exports.basicOp = exports.opposite = exports.findOdd = exports.duplicateCount = exports.abbrevName = exports.getAverage = exports.dnaStrand = exports.isPangram = exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
+exports.romanToDec = exports.sumMix = exports.countSheeps = exports.Kata2 = exports.countSmileys = exports.duplicateEncode = exports.solution = exports.countRobots = exports.getRealFloor = exports.dirReduc = exports.parse = exports.encryptThis = exports.grow = exports.longestConsec = exports.findNb = exports.seatsInTheater = exports.litres = exports.inArray = exports.nkotbVsHomie = exports.basicOp = exports.opposite = exports.findOdd = exports.duplicateCount = exports.abbrevName = exports.getAverage = exports.dnaStrand = exports.isPangram = exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -1968,19 +1968,60 @@ function countRobots(a) {
 exports.countRobots = countRobots;
 const ab = ["d*(0)(0)}b We're functioning e(<0/>0]#m Automatik Roboter0%1 D[(0)(0)]b", "And we are d[(0)(0}]b dancing mechanik d[(0)(0)]b c[(0)(0)]b"];
 countRobots(ab);
-const getExponent = (n, p) => {
-    if (p <= 1) {
-        return null;
-    }
-    let start = 1;
-    n = Math.abs(n);
-    p = Math.abs(p);
-    while (n / (Math.pow(p, start)) !== 2) {
-        start++;
-        console.log(Math.pow(p, start));
-    }
-    return start;
+const solution = (aStr) => aStr.split("").reverse().join("");
+exports.solution = solution;
+function duplicateEncode(word) {
+    word = word.toLowerCase();
+    return word.split("").map(e => word.indexOf(e) !== word.lastIndexOf(e) ? ")" : "(").join("");
+}
+exports.duplicateEncode = duplicateEncode;
+const countSmileys = (arr) => {
+    const regex = /[:;][-~]?[)D]/gm;
+    return arr.filter(e => e.match(regex)).length;
 };
-exports.getExponent = getExponent;
-console.log((0, exports.getExponent)(-250, 5));
+exports.countSmileys = countSmileys;
+class Kata2 {
+}
+exports.Kata2 = Kata2;
+Kata2.spinWords = (words) => {
+    return words.split(' ').map(e => e.length >= 5 ? e.split("").reverse().join("") : e).join(' ');
+};
+const countSheeps = (arrayOfSheep) => {
+    return arrayOfSheep.filter(e => e === true).length;
+};
+exports.countSheeps = countSheeps;
+const sumMix = (x) => {
+    return x.reduce((a, b) => +a + +b);
+};
+exports.sumMix = sumMix;
+const romanToDec = (roman) => {
+    let numerals = { 'M': 1000, 'CM': 900, 'D': 500, 'CD': 400, 'C': 100, 'XC': 90, 'L': 50, 'XL': 40, 'X': 10, 'IX': 9, 'V': 5, 'IV': 4, 'I': 1 };
+    let specNumerals = { 'CM': 900, 'CD': 400, 'XC': 90, 'XL': 40, 'IX': 9, 'IV': 4 };
+    // detect any two numerals
+    let splitRoman = roman.split("");
+    if (roman.length < 2) {
+        return numerals[roman];
+    }
+    let totals = [];
+    for (let i = 0; i < splitRoman.length - 1; i++) {
+        let iChar = splitRoman[i];
+        let jChar = splitRoman[i + 1];
+        let combined = iChar + jChar;
+        if (Object.keys(specNumerals).includes(combined)) {
+            totals.push(specNumerals[combined]);
+            splitRoman.splice(i + 1, 1);
+            splitRoman.splice(i, 1);
+        }
+    }
+    for (let i = 0; i < splitRoman.length; i++) {
+        totals.push(numerals[splitRoman[i]]);
+    }
+    return totals.reduce((a, b) => a + b);
+};
+exports.romanToDec = romanToDec;
+console.log((0, exports.romanToDec)('XXI')); // 21);
+console.log((0, exports.romanToDec)('I')); // 1);
+console.log((0, exports.romanToDec)('IV')); // 4);
+console.log((0, exports.romanToDec)('MMVIII')); // 2008);
+console.log((0, exports.romanToDec)('MDCLXVI')); // 1666);
 //# sourceMappingURL=index.js.map
