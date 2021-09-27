@@ -1,5 +1,5 @@
 import { match } from "assert";
-import { O_RDONLY } from "constants";
+import { ALPN_ENABLED, O_RDONLY } from "constants";
 import { stringify } from "querystring";
 import { inspect } from "util";
 import { markAsUntransferable } from "worker_threads";
@@ -2946,6 +2946,277 @@ console.log(romanToDec('MDCLXVI'));// 1666);
 
 export function monkeyCount(n: number) {
     return new Array(n).fill(0).map((e,i) => i+1);
-  }
+}
 
   monkeyCount(5);
+
+
+export const sortByMatch = (s1: string, s2: string): number => {
+
+    let theMatch1: number = s1.substring(2).length;
+    let theMatch2: number = s2.substring(2).length;
+    let prefix1: string = s1.charAt(0);
+    let prefix2: string = s2.charAt(0);
+    let matchTxt1: string = s1.substring(2);
+    let matchTxt2: string = s2.substring(2);
+
+    if(theMatch1 > theMatch2){
+        return -1;
+    }
+    else if(theMatch1 < theMatch2){
+        return 1;
+    }
+    else{
+        let prefixRank: {[index: string]: number} =  {"1": 0, "2": 1, "=": 2};
+        let prefixR1: number = prefixRank[prefix1];
+        let prefixR2: number = prefixRank[prefix2];
+        if(prefixR1 > prefixR2){
+            return 1;
+        }
+        else if(prefixR1 < prefixR2){
+            return -1;
+        }
+        else{
+            return 0;
+        }
+    }
+
+}
+
+
+export const mix = (s1:string, s2:string): string => {
+
+
+    let alpha = "abcdefghijklmnopqrstuvwxyz";
+    s1 = s1.split("").filter(e => alpha.includes(e)).join("");
+    s2 = s2.split("").filter(e => alpha.includes(e)).join("");
+    s1 = s1.split("").sort().join("");
+    s2 = s2.split("").sort().join("");
+    console.log(`s1 = ${s1}`);
+    console.log(`s2 = ${s2}`);
+    let matches: string[] = [];
+    let owners: string[] = [];
+    for(let eachletter of alpha){
+        if(!s1.includes(eachletter) && !s2.includes(eachletter)){
+            continue;
+        }
+        let expr = `[${eachletter}]{1,}`;
+        let match = s1.match(expr);
+        let match2 = s2.match(expr);
+        if(match === null && match2 !== null){
+            // no match detected
+            if(match2[0].length === 1){
+                continue;
+            }
+            matches.push(match2[0]);
+            owners.push("2:");
+        }
+        else if(match2 === null && match !== null){
+            if(match[0].length === 1){
+                continue;
+            }
+            matches.push(match[0]);
+            owners.push("1:");
+        }
+        else if(match !== null && match2 !== null){
+            let theMatch1: string = match[0];
+            let theMatch2: string = match2[0];
+            if(theMatch1.length === 1 && theMatch2.length === 1){
+                continue;
+            }
+            else if(theMatch1.length > theMatch2.length){
+                matches.push(theMatch1);
+                owners.push("1:");
+            }
+            else if(theMatch2.length > theMatch1.length){
+                matches.push(theMatch2);
+                owners.push("2:");
+            }
+            else{
+                matches.push(theMatch1);
+                owners.push("=:");
+            }
+
+        }
+    }
+    let finalMatches: string[] = [];
+
+    for(let i = 0; i < owners.length; i++){
+        finalMatches.push(`${owners[i]}${matches[i]}`);
+    }
+
+    let ones: string[] = [];
+    let twos: string[] = [];
+    let equals: string[] = [];
+
+    for(let eachmatch of finalMatches){
+        if(eachmatch[0] === "1"){
+            ones.push(eachmatch);
+        }
+        else if(eachmatch[0] === "2"){
+            twos.push(eachmatch);
+        }
+        else{
+            equals.push(eachmatch);
+        }
+    }
+
+    ones = ones.sort(sortByMatch);
+
+    twos = twos.sort(sortByMatch);
+
+    equals = equals.sort(sortByMatch);
+
+    finalMatches = finalMatches.sort(sortByMatch);
+
+    let results: string[] = [...ones,...twos,...equals];
+
+    console.log(JSON.stringify(results));
+
+    results = results.sort(sortByMatch);
+
+    console.log(JSON.stringify(results));
+
+    // sort by prefix 1 < 2  && 2 < "="
+
+    return results.join("/");
+
+}
+
+
+let s1 = "my&friend&Paul has heavy hats! &"
+let s2 = "my friend John has many many friends &"
+
+mix(s1,s2);
+
+
+export class G964 {
+
+    public static sortByMatch = (s1,s2) => {
+      
+     let theMatch1: number = s1.substring(2).length;
+    let theMatch2: number = s2.substring(2).length;
+    let prefix1: string = s1.charAt(0);
+    let prefix2: string = s2.charAt(0);
+    let matchTxt1: string = s1.substring(2);
+    let matchTxt2: string = s2.substring(2);
+
+    if(theMatch1 > theMatch2){
+        return -1;
+    }
+    else if(theMatch1 < theMatch2){
+        return 1;
+    }
+    else{
+        let prefixRank: {[index: string]: number} =  {"1": 0, "2": 1, "=": 2};
+        let prefixR1: number = prefixRank[prefix1];
+        let prefixR2: number = prefixRank[prefix2];
+        if(prefixR1 > prefixR2){
+            return 1;
+        }
+        else if(prefixR1 < prefixR2){
+            return -1;
+        }
+        else{
+            return 0;
+        }
+    }
+      
+    }
+  
+    public static mix = (s1, s2) => {
+      let alpha = "abcdefghijklmnopqrstuvwxyz";
+    s1 = s1.split("").filter(e => alpha.includes(e)).join("");
+    s2 = s2.split("").filter(e => alpha.includes(e)).join("");
+    s1 = s1.split("").sort().join("");
+    s2 = s2.split("").sort().join("");
+    console.log(`s1 = ${s1}`);
+    console.log(`s2 = ${s2}`);
+    let matches: string[] = [];
+    let owners: string[] = [];
+    for(let eachletter of alpha){
+        if(!s1.includes(eachletter) && !s2.includes(eachletter)){
+            continue;
+        }
+        let expr = `[${eachletter}]{1,}`;
+        let match = s1.match(expr);
+        let match2 = s2.match(expr);
+        if(match === null && match2 !== null){
+            // no match detected
+            if(match2[0].length === 1){
+                continue;
+            }
+            matches.push(match2[0]);
+            owners.push("2:");
+        }
+        else if(match2 === null && match !== null){
+            if(match[0].length === 1){
+                continue;
+            }
+            matches.push(match[0]);
+            owners.push("1:");
+        }
+        else if(match !== null && match2 !== null){
+            let theMatch1: string = match[0];
+            let theMatch2: string = match2[0];
+            if(theMatch1.length === 1 && theMatch2.length === 1){
+                continue;
+            }
+            else if(theMatch1.length > theMatch2.length){
+                matches.push(theMatch1);
+                owners.push("1:");
+            }
+            else if(theMatch2.length > theMatch1.length){
+                matches.push(theMatch2);
+                owners.push("2:");
+            }
+            else{
+                matches.push(theMatch1);
+                owners.push("=:");
+            }
+
+        }
+    }
+    let finalMatches: string[] = [];
+
+    for(let i = 0; i < owners.length; i++){
+        finalMatches.push(`${owners[i]}${matches[i]}`);
+    }
+
+    let ones: string[] = [];
+    let twos: string[] = [];
+    let equals: string[] = [];
+
+    for(let eachmatch of finalMatches){
+        if(eachmatch[0] === "1"){
+            ones.push(eachmatch);
+        }
+        else if(eachmatch[0] === "2"){
+            twos.push(eachmatch);
+        }
+        else{
+            equals.push(eachmatch);
+        }
+    }
+
+    ones = ones.sort(G964.sortByMatch);
+
+    twos = twos.sort(G964.sortByMatch);
+
+    equals = equals.sort(G964.sortByMatch);
+
+    finalMatches = finalMatches.sort(G964.sortByMatch);
+
+    let results: string[] = [...ones,...twos,...equals];
+
+    console.log(JSON.stringify(results));
+
+    results = results.sort(G964.sortByMatch);
+
+    console.log(JSON.stringify(results));
+
+    // sort by prefix 1 < 2  && 2 < "="
+
+    return results.join("/");
+    }
+}

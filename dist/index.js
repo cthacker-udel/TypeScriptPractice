@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.romanToDec = exports.sumMix = exports.countSheeps = exports.Kata2 = exports.countSmileys = exports.duplicateEncode = exports.solution = exports.countRobots = exports.getRealFloor = exports.dirReduc = exports.parse = exports.encryptThis = exports.grow = exports.longestConsec = exports.findNb = exports.seatsInTheater = exports.litres = exports.inArray = exports.nkotbVsHomie = exports.basicOp = exports.opposite = exports.findOdd = exports.duplicateCount = exports.abbrevName = exports.getAverage = exports.dnaStrand = exports.isPangram = exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
+exports.mix = exports.sortByMatch = exports.monkeyCount = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -2024,4 +2025,79 @@ console.log((0, exports.romanToDec)('I')); // 1);
 console.log((0, exports.romanToDec)('IV')); // 4);
 console.log((0, exports.romanToDec)('MMVIII')); // 2008);
 console.log((0, exports.romanToDec)('MDCLXVI')); // 1666);
+function monkeyCount(n) {
+    return new Array(n).fill(0).map((e, i) => i + 1);
+}
+exports.monkeyCount = monkeyCount;
+monkeyCount(5);
+const sortByMatch = (s1, s2) => {
+    let theMatch1 = s1.substring(2).length;
+    let theMatch2 = s2.substring(2).length;
+    if (theMatch1 > theMatch2) {
+        return 1;
+    }
+    else if (theMatch1 < theMatch2) {
+        return -1;
+    }
+    else {
+        return 0;
+    }
+};
+exports.sortByMatch = sortByMatch;
+const mix = (s1, s2) => {
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
+    let alpha = "abcdefghijklmnopqrstuvwxyz";
+    s1 = s1.split("").filter(e => alpha.includes(e)).join("");
+    s2 = s2.split("").filter(e => alpha.includes(e)).join("");
+    s1 = s1.split("").sort().join("");
+    s2 = s2.split("").sort().join("");
+    console.log(`s1 = ${s1}`);
+    console.log(`s2 = ${s2}`);
+    let matches = [];
+    let owners = [];
+    for (let eachletter of alpha) {
+        if (!s1.includes(eachletter) && !s2.includes(eachletter)) {
+            continue;
+        }
+        let expr = `[${eachletter}]{1,}`;
+        let match = s1.match(expr);
+        let match2 = s2.match(expr);
+        if (match === null && match2 !== null) {
+            // no match detected
+            matches.push(match2[0]);
+            owners.push("2:");
+        }
+        else if (match2 === null && match !== null) {
+            matches.push(match[0]);
+            owners.push("1:");
+        }
+        else if (match !== null && match2 !== null) {
+            let theMatch1 = match[0];
+            let theMatch2 = match2[0];
+            if (theMatch1.length > theMatch2.length) {
+                matches.push(theMatch1);
+                owners.push("1:");
+            }
+            else if (theMatch2.length > theMatch1.length) {
+                matches.push(theMatch2);
+                owners.push("2:");
+            }
+            else {
+                matches.push(theMatch1);
+                owners.push("=:");
+            }
+        }
+    }
+    let finalMatches = [];
+    for (let i = 0; i < owners.length; i++) {
+        finalMatches.push(`${owners[i]}${matches[i]}`);
+    }
+    finalMatches = finalMatches.sort(exports.sortByMatch);
+    return finalMatches.join("/");
+};
+exports.mix = mix;
+let s1 = "my&friend&Paul has heavy hats! &";
+let s2 = "my friend John has many many friends &";
+(0, exports.mix)(s1, s2);
 //# sourceMappingURL=index.js.map
