@@ -3092,7 +3092,7 @@ mix(s1,s2);
 
 export class G964 {
 
-    public static sortByMatch = (s1,s2) => {
+    public static sortByMatch = (s1: string,s2: string) => {
       
      let theMatch1: number = s1.substring(2).length;
     let theMatch2: number = s2.substring(2).length;
@@ -3124,7 +3124,7 @@ export class G964 {
       
     }
   
-    public static mix = (s1, s2) => {
+    public static mix = (s1: string, s2: string) => {
       let alpha = "abcdefghijklmnopqrstuvwxyz";
     s1 = s1.split("").filter(e => alpha.includes(e)).join("");
     s2 = s2.split("").filter(e => alpha.includes(e)).join("");
@@ -3220,3 +3220,121 @@ export class G964 {
     return results.join("/");
     }
 }
+
+export const reverseWords = (aStr: string): string => {
+
+    return aStr.split(" ").map(e => e.split("").reverse().join("")).join(' ');
+
+}
+
+export const lastSurvivors = (aStr: string): string => {
+
+    let foundSwap: boolean = false;
+    let alpha: string = "abcdefghijklmnopqrstuvwxyz";
+    let splitString = aStr.split("");
+    while(true){
+
+        for(let i = 0; i < splitString.length; i++){
+
+            let iChar: string = splitString[i];
+            if(splitString.lastIndexOf(iChar) !== -1 && splitString.lastIndexOf(iChar) !== i){
+                // found duplicate
+                let alphaInd: number = alpha.indexOf(iChar);
+                splitString.splice(splitString.lastIndexOf(iChar),1);
+                if(iChar === "z"){
+                    splitString[i] = "a";
+                }
+                else{
+                    splitString[i] = alpha[alphaInd+1];
+                }
+                foundSwap = true;
+                break;
+            }
+            else{
+                foundSwap = false;
+            }
+
+        }
+        if(!foundSwap){
+            return splitString.join("");
+        }
+    }
+
+}
+
+lastSurvivors("vvwvnu");
+
+export const squareDigits = (num: number): number => {
+
+    return +String(num).split("").map(e => +e).map(e => e*e).map(e => String(e)).join("");
+
+}
+
+export const oddSort = (a: number, b: number) => {
+
+    if(a % 2 !== 0){
+        return -1;
+    }
+    else{
+        return 1;
+    }
+
+}
+
+export const evenSort = (a: number, b: number) => {
+
+    if(a % 2 === 0){
+        return -1;
+    }
+    else{
+        return 1;
+    }
+
+
+}
+
+export const findOutlier = (integers: number[]): number => {
+
+    let eCt: number = 0;
+    let oCt: number = 0;
+
+    for(let i = 0; i < 3; i++){
+        if(integers[i] % 2 === 0){
+            eCt++;
+        }
+        else{
+            oCt++;
+        }
+    }
+    if(eCt >= 2){
+        // even arr
+        return integers.sort(oddSort)[0];
+    }
+    else{
+        // odd arr
+        return integers.sort(evenSort)[0];
+    }
+
+
+}
+
+findOutlier([0, 1, 2])
+
+export const towerBuilder = (nFloors: number): string[] => {
+
+    let maxFloor = (nFloors*2)-1;
+    // increment by 2 when building floors, but set string length to default pad left the (amt in middle - totallength) / 2
+    let tower: string[] = [];
+
+    for(let i = 1; i <= maxFloor; i += 2){
+
+        let amt = i;
+        let padAmt = (maxFloor - amt) / 2;
+        tower.push(`${' '.repeat(padAmt)}${'*'.repeat(amt)}${' '.repeat(padAmt)}`);
+    }
+    return tower;
+
+}
+
+console.log(towerBuilder(1));
+console.log(towerBuilder(3));
