@@ -3338,3 +3338,211 @@ export const towerBuilder = (nFloors: number): string[] => {
 
 console.log(towerBuilder(1));
 console.log(towerBuilder(3));
+
+
+export const centuryFromYear = (year: number): number => {
+    let theYear: string = year.toString();
+    console.log(`year = ${year}`);
+    if(year % 100 === 0){
+      return +theYear.substring(0,theYear.length-2);
+    }
+  else{
+    return +theYear.substring(0,theYear.length-2)+1;
+  }
+};
+
+
+export class G964 {
+
+    public static stat = (strg: string) => {
+      
+    if(strg === ""){
+      return "";
+    }
+      
+    let totalTime: number[] = [];
+      
+    let splitStrg: string[] = strg.split(', ');
+    splitStrg.forEach(e => {
+      
+        let splitTime = e.split("|");
+      let theTotalTime: number = 0;
+      let hour: any = splitTime[0];
+      let minute: any = splitTime[1];
+      let seconds: any = splitTime[2];
+
+      if(hour !== "undefined"){
+        hour = (+hour * 60)*60;
+        theTotalTime += hour;
+      }
+      if(minute !== "undefined"){
+        minute = +minute * 60;
+        theTotalTime += minute;
+      }
+      if(seconds !== "undefined"){
+        theTotalTime += +seconds;
+      }
+      totalTime.push(theTotalTime);
+      
+    });
+
+    totalTime = totalTime.sort((a,b) => a-b);
+
+    let range = totalTime[totalTime.length-1] - totalTime[0];
+
+    let average = Math.floor(totalTime.reduce((a,b) => a+b) / totalTime.length);
+
+    let median: number = 0;
+      
+    if(totalTime.length % 2 !== 0){
+      
+      median = totalTime[Math.floor(totalTime.length / 2)];
+      
+    }
+    else{
+      
+      median = Math.floor((totalTime[Math.floor(totalTime.length / 2)] + totalTime[Math.floor(totalTime.length / 2)-1]) / 2);
+      
+    }
+      
+    let rangeHr = 0;
+    let rangeMin = 0;
+    let rangeSec = 0;
+
+    let averageHr = 0;
+    let averageMin = 0;
+    let averageSec = 0;
+
+    let medianHr = 0;
+    let medianMin = 0;
+    let medianSec = 0;
+
+    while(range >= 3600){
+
+        range -= 3600;
+        rangeHr++;
+
+    }
+
+    while(range >= 60){
+
+        range -= 60;
+        rangeMin++;
+
+    }
+
+    rangeSec += range;
+
+    while(average >= 3600){
+
+        average -= 3600;
+        averageHr++;
+
+    }
+
+    while(average >= 60){
+
+        average -= 60;
+        averageMin++;
+
+    }
+
+    averageSec += average;
+
+    while(median >= 3600){
+
+        median -= 3600;
+        medianHr++;
+
+    }
+
+    while(median >= 60){
+
+        median -= 60;
+        medianMin++;
+
+    }
+
+    medianSec += median;
+
+    let rangeHrStr: string = String(rangeHr);
+
+    let rangeMinStr: string = String(rangeMin);
+
+    let rangeSecStr: string = String(rangeSec);
+
+    let averageHrStr: string = String(averageHr);
+
+    let averageMinStr: string = String(averageMin);
+
+    let averageSecStr: string = String(averageSec);
+
+    let medianHrStr: string = String(medianHr);
+
+    let medianMinStr: string = String(medianMin);
+
+    let medianSecStr: string = String(medianSec);
+
+    while(rangeHrStr.length < 2){
+
+        rangeHrStr = "0" + rangeHrStr;
+
+    }
+
+    while(rangeMinStr.length < 2){
+
+        rangeMinStr = "0" + rangeMinStr;
+
+    }   
+
+    while(rangeSecStr.length < 2){
+
+        rangeSecStr = "0" + rangeSecStr;
+
+    }
+
+    while(averageHrStr.length < 2){
+
+        averageHrStr = "0" + averageHrStr;
+
+    }
+
+    while(averageMinStr.length < 2){
+
+        averageMinStr = "0" + averageMinStr;
+
+    }
+
+    while(averageSecStr.length < 2){
+
+        averageSecStr = "0" + averageSecStr;
+
+    }
+
+    while(medianHrStr.length < 2){
+
+        medianHrStr = "0" + medianHrStr;
+
+    }
+
+    while(medianMinStr.length < 2){
+
+        medianMinStr = "0" + medianMinStr;
+
+    }
+
+    while(medianSecStr.length < 2){
+
+        medianSecStr = "0" + medianSecStr;
+
+    }
+
+    return `Range: ${rangeHrStr}|${rangeMinStr}|${rangeSecStr} Average: ${averageHrStr}|${averageMinStr}|${averageSecStr} Median: ${medianHrStr}|${medianMinStr}|${medianSecStr}`;
+
+  }
+}
+
+console.log(stat("01|15|59, 1|47|16, 01|17|20, 1|32|34, 2|17|17"));
+
+"Range: 01|01|18 Average: 01|38|05 Median: 01|32|34"
+

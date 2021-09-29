@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.romanToDec = exports.sumMix = exports.countSheeps = exports.Kata2 = exports.countSmileys = exports.duplicateEncode = exports.solution = exports.countRobots = exports.getRealFloor = exports.dirReduc = exports.parse = exports.encryptThis = exports.grow = exports.longestConsec = exports.findNb = exports.seatsInTheater = exports.litres = exports.inArray = exports.nkotbVsHomie = exports.basicOp = exports.opposite = exports.findOdd = exports.duplicateCount = exports.abbrevName = exports.getAverage = exports.dnaStrand = exports.isPangram = exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
-exports.towerBuilder = exports.findOutlier = exports.evenSort = exports.oddSort = exports.squareDigits = exports.lastSurvivors = exports.reverseWords = exports.G964 = exports.mix = exports.sortByMatch = exports.monkeyCount = void 0;
+exports.stat = exports.centuryFromYear = exports.towerBuilder = exports.findOutlier = exports.evenSort = exports.oddSort = exports.squareDigits = exports.lastSurvivors = exports.reverseWords = exports.G964 = exports.mix = exports.sortByMatch = exports.monkeyCount = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -2349,4 +2349,42 @@ const towerBuilder = (nFloors) => {
 exports.towerBuilder = towerBuilder;
 console.log((0, exports.towerBuilder)(1));
 console.log((0, exports.towerBuilder)(3));
+const centuryFromYear = (year) => {
+    let theYear = year.toString();
+    console.log(`year = ${year}`);
+    if (year % 100 === 0) {
+        return +theYear.substring(0, theYear.length - 2);
+    }
+    else {
+        return +theYear.substring(0, theYear.length - 2) + 1;
+    }
+};
+exports.centuryFromYear = centuryFromYear;
+const stat = (strg) => {
+    let totalTime = [];
+    let splitStrg = strg.split(', ');
+    splitStrg.forEach(e => {
+        let splitTime = e.split("|");
+        let theTotalTime = 0;
+        let hour = splitTime[0];
+        let minute = splitTime[1];
+        let seconds = splitTime[2];
+        if (hour !== "undefined") {
+            hour = (+hour * 60) * 60;
+            theTotalTime += hour;
+        }
+        if (minute !== "undefined") {
+            minute = +minute * 60;
+            theTotalTime += minute;
+        }
+        if (seconds !== "undefined") {
+            theTotalTime += +seconds;
+        }
+        totalTime.push(theTotalTime);
+    });
+    console.log(`The Total Time = ${JSON.stringify(totalTime)}`);
+    return "";
+};
+exports.stat = stat;
+(0, exports.stat)("01|15|59, 1|47|16, 01|17|20, 1|32|34, 2|17|17");
 //# sourceMappingURL=index.js.map
