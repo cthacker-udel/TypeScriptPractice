@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.romanToDec = exports.sumMix = exports.countSheeps = exports.Kata2 = exports.countSmileys = exports.duplicateEncode = exports.solution = exports.countRobots = exports.getRealFloor = exports.dirReduc = exports.parse = exports.encryptThis = exports.grow = exports.longestConsec = exports.findNb = exports.seatsInTheater = exports.litres = exports.inArray = exports.nkotbVsHomie = exports.basicOp = exports.opposite = exports.findOdd = exports.duplicateCount = exports.abbrevName = exports.getAverage = exports.dnaStrand = exports.isPangram = exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
-exports.findTheNotFittingElement = exports.G9644 = exports.centuryFromYear = exports.towerBuilder = exports.findOutlier = exports.evenSort = exports.oddSort = exports.squareDigits = exports.lastSurvivors = exports.reverseWords = exports.G964 = exports.mix = exports.sortByMatch = exports.monkeyCount = void 0;
+exports.cowboysDollars = exports.findTheNotFittingElement = exports.G9644 = exports.centuryFromYear = exports.towerBuilder = exports.findOutlier = exports.evenSort = exports.oddSort = exports.squareDigits = exports.lastSurvivors = exports.reverseWords = exports.G964 = exports.mix = exports.sortByMatch = exports.monkeyCount = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -2502,4 +2502,76 @@ console.log((0, exports.findTheNotFittingElement)(['Z', 'L', 'P', 't', 'G'])); /
 console.log((0, exports.findTheNotFittingElement)(['Z', 'L', '3', 't', 'G'])); // '3');
 console.log((0, exports.findTheNotFittingElement)(['Z', 'L', '3', 't', 4])); // 4);
 console.log((0, exports.findTheNotFittingElement)(['Z', 'e', '.', 'a', 'G'])); // '.');    
+const cowboysDollars = (boots) => {
+    let leftBoot = boots[0];
+    let rightBoot = boots[1];
+    let leftTop = leftBoot.indexOf('&|');
+    let rightTop = rightBoot.indexOf('&|');
+    leftBoot = leftBoot.substring(0, leftTop).replace(/\n/g, "").replace(/\|/g, "");
+    rightBoot = rightBoot.substring(0, rightTop).replace(/\n/g, "").replace(/\|/g, "");
+    const expr = /\[\(1\)\]/;
+    let regex = new RegExp(expr);
+    let matchArray; // = regex.exec(leftBoot);
+    let dollarCountLeft = 0;
+    let dollarCountRight = 0;
+    while (true) {
+        matchArray = regex.exec(leftBoot);
+        console.log(matchArray === null || matchArray === void 0 ? void 0 : matchArray.index);
+        let ind = matchArray === null || matchArray === void 0 ? void 0 : matchArray.index;
+        if (matchArray !== null) {
+            let theMatch = matchArray[0];
+            dollarCountLeft += +theMatch.split("").filter(e => "0123456789".includes(e)).join("");
+        }
+        if (ind !== undefined) {
+            let theInd = ind;
+            leftBoot = leftBoot.substring(theInd + 5);
+        }
+        else {
+            break;
+        }
+        regex = new RegExp(expr);
+    }
+    while (true) {
+        matchArray = regex.exec(rightBoot);
+        console.log(matchArray === null || matchArray === void 0 ? void 0 : matchArray.index);
+        let ind = matchArray === null || matchArray === void 0 ? void 0 : matchArray.index;
+        if (matchArray !== null) {
+            let theMatch = matchArray[0];
+            dollarCountRight += +theMatch.split("").filter(e => "0123456789".includes(e)).join("");
+        }
+        if (ind !== undefined) {
+            let theInd = ind;
+            rightBoot = rightBoot.substring(theInd + 5);
+        }
+        else {
+            break;
+        }
+        regex = new RegExp(expr);
+    }
+    return `This Rhinestone Cowboy has ${dollarCountLeft} dollar bills in his right boot and ${dollarCountRight} in his left`;
+};
+exports.cowboysDollars = cowboysDollars;
+var left = ['',
+    '   ,|___|,',
+    '   |     |',
+    '   |     |',
+    '   |[(1)]|',
+    '   | ==  |',
+    '   |[(1)]|',
+    '   /    &|',
+    ".-'`  ,   )****",
+    '|         |   **',
+    '`~~~~~~~~~~    ^'], right = ['',
+    '   ,|___|,',
+    '   |[(1)]|',
+    '   |     |',
+    '   |[(1)]|',
+    '   | ==  |',
+    '   |[(1)]|',
+    '   /    &|',
+    ".-'`  ,   )****",
+    '|[(1)]    |   **',
+    '`~~~~~~~~~~    ^'];
+var boots = [left.join('\n'), right.join('\n')];
+console.log((0, exports.cowboysDollars)(boots));
 //# sourceMappingURL=index.js.map

@@ -3580,3 +3580,85 @@ console.log(findTheNotFittingElement([ 'Z', 'L', '3', 't', 'G' ]));// '3');
 console.log(findTheNotFittingElement([ 'Z', 'L', '3', 't', 4 ]));// 4);
 console.log(findTheNotFittingElement([ 'Z', 'e', '.', 'a', 'G' ]));// '.');    
 
+export const cowboysDollars = (boots: string[]): string => {
+
+    let leftBoot = boots[0];
+    let rightBoot = boots[1];
+    let leftTop = leftBoot.indexOf('&|');
+    let rightTop = rightBoot.indexOf('&|');
+    leftBoot = leftBoot.substring(0,leftTop).replace(/\n/g,"").replace(/\|/g,"");
+    rightBoot = rightBoot.substring(0,rightTop).replace(/\n/g,"").replace(/\|/g,"");
+    const expr = /\[\(1\)\]/;
+    let regex = new RegExp(expr);
+    let matchArray: RegExpMatchArray | null;// = regex.exec(leftBoot);
+    let dollarCountLeft = 0;
+    let dollarCountRight = 0;
+    while(true){
+        matchArray = regex.exec(leftBoot);
+        console.log(matchArray?.index);
+        let ind: number | undefined = matchArray?.index;
+        if(matchArray !== null){
+            let theMatch: string = matchArray[0];
+            dollarCountLeft += +theMatch.split("").filter(e => "0123456789".includes(e)).join("");
+        }
+        if(ind !== undefined){
+            let theInd: number = ind;
+            leftBoot = leftBoot.substring(theInd+5);
+        }
+        else{
+            break;
+        }
+        regex = new RegExp(expr);
+
+    }
+
+    while(true){
+        matchArray = regex.exec(rightBoot);
+        console.log(matchArray?.index);
+        let ind: number | undefined = matchArray?.index;
+        if(matchArray !== null){
+            let theMatch: string = matchArray[0];
+            dollarCountRight += +theMatch.split("").filter(e => "0123456789".includes(e)).join("");
+        }
+        if(ind !== undefined){
+            let theInd: number = ind;
+            rightBoot = rightBoot.substring(theInd+5);
+        }
+        else{
+            break;
+        }
+        regex = new RegExp(expr);
+
+    }
+
+    return `This Rhinestone Cowboy has ${dollarCountRight} dollar bills in his right boot and ${dollarCountLeft} in his left`;
+
+}
+
+
+var left = ['',
+ '   ,|___|,',
+ '   |     |',
+ '   |     |',
+ '   |[(1)]|',
+ '   | ==  |',
+ '   |[(1)]|',
+ '   /    &|',
+ ".-'`  ,   )****",
+ '|         |   **',
+ '`~~~~~~~~~~    ^'],
+right = ['',
+ '   ,|___|,',
+ '   |[(1)]|',
+ '   |     |',
+ '   |[(1)]|',
+ '   | ==  |',
+ '   |[(1)]|',
+ '   /    &|',
+ ".-'`  ,   )****",
+ '|[(1)]    |   **',
+ '`~~~~~~~~~~    ^'];
+var boots = [left.join('\n'),right.join('\n')];
+
+console.log(cowboysDollars(boots));
+
