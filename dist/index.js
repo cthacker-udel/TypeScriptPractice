@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.romanToDec = exports.sumMix = exports.countSheeps = exports.Kata2 = exports.countSmileys = exports.duplicateEncode = exports.solution = exports.countRobots = exports.getRealFloor = exports.dirReduc = exports.parse = exports.encryptThis = exports.grow = exports.longestConsec = exports.findNb = exports.seatsInTheater = exports.litres = exports.inArray = exports.nkotbVsHomie = exports.basicOp = exports.opposite = exports.findOdd = exports.duplicateCount = exports.abbrevName = exports.getAverage = exports.dnaStrand = exports.isPangram = exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
-exports.stat = exports.centuryFromYear = exports.towerBuilder = exports.findOutlier = exports.evenSort = exports.oddSort = exports.squareDigits = exports.lastSurvivors = exports.reverseWords = exports.G964 = exports.mix = exports.sortByMatch = exports.monkeyCount = void 0;
+exports.findTheNotFittingElement = exports.G9644 = exports.centuryFromYear = exports.towerBuilder = exports.findOutlier = exports.evenSort = exports.oddSort = exports.squareDigits = exports.lastSurvivors = exports.reverseWords = exports.G964 = exports.mix = exports.sortByMatch = exports.monkeyCount = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -2360,7 +2360,13 @@ const centuryFromYear = (year) => {
     }
 };
 exports.centuryFromYear = centuryFromYear;
-const stat = (strg) => {
+class G9644 {
+}
+exports.G9644 = G9644;
+G9644.stat = (strg) => {
+    if (strg === "") {
+        return "";
+    }
     let totalTime = [];
     let splitStrg = strg.split(', ');
     splitStrg.forEach(e => {
@@ -2382,9 +2388,118 @@ const stat = (strg) => {
         }
         totalTime.push(theTotalTime);
     });
-    console.log(`The Total Time = ${JSON.stringify(totalTime)}`);
-    return "";
+    totalTime = totalTime.sort((a, b) => a - b);
+    let range = totalTime[totalTime.length - 1] - totalTime[0];
+    let average = Math.floor(totalTime.reduce((a, b) => a + b) / totalTime.length);
+    let median = 0;
+    if (totalTime.length % 2 !== 0) {
+        median = totalTime[Math.floor(totalTime.length / 2)];
+    }
+    else {
+        median = Math.floor((totalTime[Math.floor(totalTime.length / 2)] + totalTime[Math.floor(totalTime.length / 2) - 1]) / 2);
+    }
+    let rangeHr = 0;
+    let rangeMin = 0;
+    let rangeSec = 0;
+    let averageHr = 0;
+    let averageMin = 0;
+    let averageSec = 0;
+    let medianHr = 0;
+    let medianMin = 0;
+    let medianSec = 0;
+    while (range >= 3600) {
+        range -= 3600;
+        rangeHr++;
+    }
+    while (range >= 60) {
+        range -= 60;
+        rangeMin++;
+    }
+    rangeSec += range;
+    while (average >= 3600) {
+        average -= 3600;
+        averageHr++;
+    }
+    while (average >= 60) {
+        average -= 60;
+        averageMin++;
+    }
+    averageSec += average;
+    while (median >= 3600) {
+        median -= 3600;
+        medianHr++;
+    }
+    while (median >= 60) {
+        median -= 60;
+        medianMin++;
+    }
+    medianSec += median;
+    let rangeHrStr = String(rangeHr);
+    let rangeMinStr = String(rangeMin);
+    let rangeSecStr = String(rangeSec);
+    let averageHrStr = String(averageHr);
+    let averageMinStr = String(averageMin);
+    let averageSecStr = String(averageSec);
+    let medianHrStr = String(medianHr);
+    let medianMinStr = String(medianMin);
+    let medianSecStr = String(medianSec);
+    while (rangeHrStr.length < 2) {
+        rangeHrStr = "0" + rangeHrStr;
+    }
+    while (rangeMinStr.length < 2) {
+        rangeMinStr = "0" + rangeMinStr;
+    }
+    while (rangeSecStr.length < 2) {
+        rangeSecStr = "0" + rangeSecStr;
+    }
+    while (averageHrStr.length < 2) {
+        averageHrStr = "0" + averageHrStr;
+    }
+    while (averageMinStr.length < 2) {
+        averageMinStr = "0" + averageMinStr;
+    }
+    while (averageSecStr.length < 2) {
+        averageSecStr = "0" + averageSecStr;
+    }
+    while (medianHrStr.length < 2) {
+        medianHrStr = "0" + medianHrStr;
+    }
+    while (medianMinStr.length < 2) {
+        medianMinStr = "0" + medianMinStr;
+    }
+    while (medianSecStr.length < 2) {
+        medianSecStr = "0" + medianSecStr;
+    }
+    return `Range: ${rangeHrStr}|${rangeMinStr}|${rangeSecStr} Average: ${averageHrStr}|${averageMinStr}|${averageSecStr} Median: ${medianHrStr}|${medianMinStr}|${medianSecStr}`;
 };
-exports.stat = stat;
-(0, exports.stat)("01|15|59, 1|47|16, 01|17|20, 1|32|34, 2|17|17");
+console.log(G9644.stat("01|15|59, 1|47|16, 01|17|20, 1|32|34, 2|17|17"));
+"Range: 01|01|18 Average: 01|38|05 Median: 01|32|34";
+const findTheNotFittingElement = (series) => {
+    let types = new Set(series.map(e => typeof e));
+    if (types.size > 1) {
+        // two different types
+        let type1 = [...types][1];
+        let type0 = [...types][0];
+        if (series.filter(e => typeof e === typeof [...types][0]).length > 1) {
+            return series.filter(e => typeof e === typeof [...types][1]);
+        }
+        else {
+            return series.find(e => typeof e === typeof [...types][0]);
+        }
+    }
+};
+exports.findTheNotFittingElement = findTheNotFittingElement;
+console.log(`testing not fitting element`);
+console.log((0, exports.findTheNotFittingElement)([1, 2, 2, 2, 2])); //1 );
+console.log((0, exports.findTheNotFittingElement)([true, true, true, false, true])); // false);
+console.log((0, exports.findTheNotFittingElement)(['a', 'a', 'b', 'a', 'a', 'a', 'a'])); // 'b');
+console.log((0, exports.findTheNotFittingElement)(['1', 2, '4', '6', '8'])); // 2);
+console.log((0, exports.findTheNotFittingElement)([2, 2, 2, 2, 2, '2'])); // '2');
+console.log((0, exports.findTheNotFittingElement)([1, 2, 4, 6, true])); // true);
+console.log((0, exports.findTheNotFittingElement)([1, 2, 4, 6, 10])); // 1);
+console.log((0, exports.findTheNotFittingElement)([2, 2, -2, 6, 10])); // -2);
+console.log((0, exports.findTheNotFittingElement)(['Z', 'L', 'P', 't', 'G'])); // 't');
+console.log((0, exports.findTheNotFittingElement)(['Z', 'L', '3', 't', 'G'])); // '3');
+console.log((0, exports.findTheNotFittingElement)(['Z', 'L', '3', 't', 4])); // 4);
+console.log((0, exports.findTheNotFittingElement)(['Z', 'e', '.', 'a', 'G'])); // '.');    
 //# sourceMappingURL=index.js.map

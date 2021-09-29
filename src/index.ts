@@ -3352,7 +3352,7 @@ export const centuryFromYear = (year: number): number => {
 };
 
 
-export class G964 {
+export class G9644 {
 
     public static stat = (strg: string) => {
       
@@ -3542,7 +3542,41 @@ export class G964 {
   }
 }
 
-console.log(stat("01|15|59, 1|47|16, 01|17|20, 1|32|34, 2|17|17"));
+console.log(G9644.stat("01|15|59, 1|47|16, 01|17|20, 1|32|34, 2|17|17"));
 
 "Range: 01|01|18 Average: 01|38|05 Median: 01|32|34"
+
+export const findTheNotFittingElement = (series: any[]): any => {
+
+    let types = new Set(series.map(e => typeof e));
+
+    if(types.size > 1){
+
+        // two different types
+        let type1: string = [...types][1];
+        let type0: string = [...types][0];
+        if(series.filter(e => typeof e === typeof [...types][0]).length > 1){
+            return series.filter(e => typeof e === typeof [...types][1]);
+        }
+        else{
+            return series.find(e => typeof e === typeof [...types][0]);
+        }
+
+    }
+
+}
+
+console.log(`testing not fitting element`);
+console.log(findTheNotFittingElement([ 1, 2, 2, 2, 2 ]));//1 );
+console.log(findTheNotFittingElement([ true, true, true, false, true ]));// false);
+console.log(findTheNotFittingElement([ 'a', 'a', 'b', 'a', 'a', 'a', 'a' ]));// 'b');
+console.log(findTheNotFittingElement([ '1', 2, '4', '6', '8' ]));// 2);
+console.log(findTheNotFittingElement([ 2, 2, 2, 2, 2, '2' ]));// '2');
+console.log(findTheNotFittingElement([ 1, 2, 4, 6, true ]));// true);
+console.log(findTheNotFittingElement([ 1, 2, 4, 6, 10 ]));// 1);
+console.log(findTheNotFittingElement([ 2, 2, -2, 6, 10 ]));// -2);
+console.log(findTheNotFittingElement([ 'Z', 'L', 'P', 't', 'G' ]));// 't');
+console.log(findTheNotFittingElement([ 'Z', 'L', '3', 't', 'G' ]));// '3');
+console.log(findTheNotFittingElement([ 'Z', 'L', '3', 't', 4 ]));// 4);
+console.log(findTheNotFittingElement([ 'Z', 'e', '.', 'a', 'G' ]));// '.');    
 
