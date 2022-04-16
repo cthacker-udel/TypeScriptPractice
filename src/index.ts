@@ -3662,3 +3662,25 @@ var boots = [left.join('\n'),right.join('\n')];
 
 console.log(cowboysDollars(boots));
 
+const add3 = (first: number, second: number, third: number) => {
+    return (first > 0 ? first : 0) + (second > 0 ? second : 0) + (third > 0 ? third : 0);
+}
+
+
+export const injectPositive = (values: number[]): number[] => {
+
+    const index = values.findIndex(e => e < 0);
+    if ( index !== undefined ) {
+        values.splice(index + 1, 0, values.slice(0, index).reduce((prevValue, currValue) => prevValue + currValue))
+        return values;
+    }
+    return [...values, values.reduce((prevValue, currValue) => prevValue + currValue)];
+
+};
+
+export const solution2 = (theNum: number) => {
+    return theNum > 0 ? [...new Array(theNum).keys()].filter(e => e % 3 == 0 || e % 5 == 0).reduce((a, b) => a + b) : 0;
+}
+
+
+console.log(solution2(10));

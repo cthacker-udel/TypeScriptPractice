@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.romanToDec = exports.sumMix = exports.countSheeps = exports.Kata2 = exports.countSmileys = exports.duplicateEncode = exports.solution = exports.countRobots = exports.getRealFloor = exports.dirReduc = exports.parse = exports.encryptThis = exports.grow = exports.longestConsec = exports.findNb = exports.seatsInTheater = exports.litres = exports.inArray = exports.nkotbVsHomie = exports.basicOp = exports.opposite = exports.findOdd = exports.duplicateCount = exports.abbrevName = exports.getAverage = exports.dnaStrand = exports.isPangram = exports.allRationals = exports.nextBigger = exports.permutations = exports.plural = exports.Kata = exports.validBraces = exports.squareSum = exports.convertFrac = exports.lcmMult = exports.countArr = exports.primeFactors = exports.lcm = exports.fractionSort = exports.commonDenomFunc = exports.findMissingLetter = exports.tribonacci = exports.comp = exports.count = exports.removeInd = exports.descendingOrder = exports.lovefunc = exports.multiply = exports.digitalRoot = void 0;
-exports.cowboysDollars = exports.findTheNotFittingElement = exports.G9644 = exports.centuryFromYear = exports.towerBuilder = exports.findOutlier = exports.evenSort = exports.oddSort = exports.squareDigits = exports.lastSurvivors = exports.reverseWords = exports.G964 = exports.mix = exports.sortByMatch = exports.monkeyCount = void 0;
+exports.solution2 = exports.injectPositive = exports.cowboysDollars = exports.findTheNotFittingElement = exports.G9644 = exports.centuryFromYear = exports.towerBuilder = exports.findOutlier = exports.evenSort = exports.oddSort = exports.squareDigits = exports.lastSurvivors = exports.reverseWords = exports.G964 = exports.mix = exports.sortByMatch = exports.monkeyCount = void 0;
 console.log('Hello Typescript!');
 let c = {
     firstName: "john",
@@ -2548,7 +2548,7 @@ const cowboysDollars = (boots) => {
         }
         regex = new RegExp(expr);
     }
-    return `This Rhinestone Cowboy has ${dollarCountLeft} dollar bills in his right boot and ${dollarCountRight} in his left`;
+    return `This Rhinestone Cowboy has ${dollarCountRight} dollar bills in his right boot and ${dollarCountLeft} in his left`;
 };
 exports.cowboysDollars = cowboysDollars;
 var left = ['',
@@ -2574,4 +2574,21 @@ var left = ['',
     '`~~~~~~~~~~    ^'];
 var boots = [left.join('\n'), right.join('\n')];
 console.log((0, exports.cowboysDollars)(boots));
+const add3 = (first, second, third) => {
+    return (first > 0 ? first : 0) + (second > 0 ? second : 0) + (third > 0 ? third : 0);
+};
+const injectPositive = (values) => {
+    const index = values.findIndex(e => e < 0);
+    if (index !== undefined) {
+        values.splice(index + 1, 0, values.slice(0, index).reduce((prevValue, currValue) => prevValue + currValue));
+        return values;
+    }
+    return [...values, values.reduce((prevValue, currValue) => prevValue + currValue)];
+};
+exports.injectPositive = injectPositive;
+const solution2 = (thenum) => {
+    return [...new Array(thenum).keys()].filter(e => e % 3 == 0 || e % 5 == 0).reduce((a, b) => a + b);
+};
+exports.solution2 = solution2;
+console.log((0, exports.solution2)(10));
 //# sourceMappingURL=index.js.map
